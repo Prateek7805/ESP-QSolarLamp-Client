@@ -1,0 +1,57 @@
+.main-container{
+    background-color: #000; /* Set to a suitable color matching the image */
+    display: flex;
+    min-width: 100vw;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url('Background.jpg');
+    background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  backdrop-filter: blur(3px);
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+.blur-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+    opacity: 0.8;
+    z-index: -1;
+}
+.content{
+    min-height : 90vh;
+    width: 90%;
+    background-color: #f6f8fa;
+    border-radius: 10px;
+}
+.panel{
+    height: auto;
+    padding: 0 !important;
+}
+
+.panel-image{
+    background-image: url('Panel_Background.jpg');
+    background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.panel-title{
+    display: flex;
+    width: 100%;
+    padding: 5px;
+    justify-content: center;
+    background-color: #ccd0d4;
+    border-top-left-radius: 10px;
+}
+.panel-title>p{
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
