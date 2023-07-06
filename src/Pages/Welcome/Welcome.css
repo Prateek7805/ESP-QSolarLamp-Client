@@ -48,10 +48,12 @@
     width: 100%;
     padding: 5px;
     justify-content: center;
-    background-color: #ccd0d4;
     border-top-left-radius: 10px;
+    background: rgb(67,198,172);
+    background: linear-gradient(90deg, rgba(67,198,172,1) 0%, rgba(25,22,84,1) 100%);
 }
 .panel-title>p{
     font-size: 1.1rem;
     margin-bottom: 0;
+    color: #fff;
 }

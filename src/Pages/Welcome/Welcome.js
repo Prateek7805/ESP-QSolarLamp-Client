@@ -9,7 +9,7 @@ export default function Welcome() {
             <div className='op main-container container-fluid'>
                 <div className="blur-overlay"></div>
                 <div className='row content'>
-                    <div className='panel col-12 col-sm' >
+                    <div className='panel col-12 col-sm-8' >
                         <div className='panel-title'><p>Welcome Aboard!</p></div>
                         <div className='d-flex p-3'>
                         <InputGroup className="mb-3">
@@ -20,7 +20,7 @@ export default function Welcome() {
                         </div>
                         
                     </div>
-                    <div className='panel panel-image col-12 col-sm-6 d-none d-sm-flex' ></div>
+                    <div className='panel panel-image col-12 col-sm-4 d-none d-sm-flex' ></div>
                 </div>
             </div>
         </>
