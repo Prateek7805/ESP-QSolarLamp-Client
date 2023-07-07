@@ -1,12 +1,9 @@
 .main-container{
     background-color: #000; /* Set to a suitable color matching the image */
-    display: flex;
+    
     min-width: 100vw;
     min-height: 100vh;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-image: url('Background.jpg');
+    background-image: url('../../Assets/Images/Welcome/Background.jpg');
     background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -30,12 +27,14 @@
     border-radius: 10px;
 }
 .panel{
+    display: flex;
+    flex-direction: column;
     height: auto;
     padding: 0 !important;
 }
 
 .panel-image{
-    background-image: url('Panel_Background.jpg');
+    background-image: url('../../Assets/Images/Welcome/Panel_Background.jpg');
     background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -47,7 +46,7 @@
 .panel-title{
     display: flex;
     width: 100%;
-    padding: 5px;
+    padding: 10px;
     justify-content: center;
     border-top-left-radius: 10px;
     background: rgb(67,198,172);
@@ -67,9 +66,28 @@
 .login-inputs{
     width: 60%;
 }
-  
+.login-wrapper{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-footer{
+    display: flex;
+}
   @media (max-width: 576px) {
     .login-inputs {
       width: 100%;
+    }
+    .login-wrapper{
+        flex-grow: 0;
+    }
+    .content{
+        min-height : 10vh;
+        width: 90%;
+        background-color: #f6f8fa;
+        border-radius: 10px;
     }
   }
