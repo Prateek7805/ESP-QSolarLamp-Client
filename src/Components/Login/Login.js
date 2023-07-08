@@ -28,7 +28,7 @@ export default function Login() {
                                 controlId="floatingInput"
                                 label="Email address"
                             >
-                                <Form.Control type="email" placeholder="name@example.com" onChange={handleEmail} value={email} />
+                                <Form.Control type="email" placeholder="example@email.com" onChange={handleEmail} value={email} />
                             </FloatingLabel>
 
                         </div>
