@@ -9,7 +9,7 @@ import Signup from '../../Components/Signup/Signup';
 export default function Landing() {
 
     const [isBgLoaded, setIsBgLoaded] = useState(false);
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
     useEffect(()=>{
         const img = new Image();
         img.onload = ()=>{
