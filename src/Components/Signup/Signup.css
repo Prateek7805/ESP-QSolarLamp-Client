@@ -1,0 +1,14 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+.switcher{
+    cursor: pointer;
+    color: #002984;
+}
+@media (max-width: 576px) {
+    .wrapper{
+        width: 100%;
+    }
+}

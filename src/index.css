@@ -5,8 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
-.op{
+.co{
   outline: #4CAF50 solid 2px;
+}
+.co2{
+  outline: #4800f1 solid 2px;
 }
