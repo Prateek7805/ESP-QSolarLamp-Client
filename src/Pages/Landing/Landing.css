@@ -1,3 +1,9 @@
+:root{
+    --c-landing-bg : #FDDEC1;
+    --c-landing-panel-img-bg : #000000;
+    --c-landing-panel-ctrl-bg : rgba(255, 255, 255, 0.8);
+}
+
 .main-container{
     display: flex;
     flex-direction: column;
@@ -5,7 +11,7 @@
     align-items: center;
     min-width: 100vw;
     min-height: 100vh;
-    background-color: #FDDEC1;
+    background-color: var(--c-landing-bg);
     background-image: url('../../Assets/Images/Landing/landing-background.jpg');
     background-size: cover;
     background-repeat: no-repeat;
@@ -21,7 +27,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-color: #000;
+    background-color: var(--c-landing-panel-img-bg);
     border-radius: 10px 0 0 10px;
 }
 .panel-controls{
@@ -31,7 +37,7 @@
     align-items: center;
     position: relative;
     border-radius: 0 10px 10px 0;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--c-landing-panel-ctrl-bg);
     padding: 5vh;
 }
 @media (max-width: 576px) {

@@ -1,5 +1,5 @@
 import './Signup.css';
-import { TextField, OutlinedInput, IconButton, InputAdornment, FormControl, InputLabel, Button } from '@mui/material';
+import { TextField, IconButton, InputAdornment, Button } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { DateField } from '@mui/x-date-pickers/DateField';
@@ -11,8 +11,36 @@ export default function Signup(props) {
 
     const { setIsLogin } = props;
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const hlShowPassword = () => setIsPasswordVisible(show => !show);
-
+    const hShowPassword = () => setIsPasswordVisible(show => !show);
+    
+    const [signupData, setSignupData] = useState({
+        firstName : {
+            value: '',
+            error: false,
+            helperText : ''
+        },
+        lastName : {
+            value: '',
+            error: false,
+            helperText : ''
+        },
+        date_of_birth : {
+            value: '',
+            error: false,
+            helperText : ''
+        },
+        email : {
+            value: '',
+            error: false,
+            helperText : ''
+        },
+        password : {
+            value: '',
+            error: false,
+            helperText : ''
+        }
+    });
+    
     return (
         <div className="wrapper m-3">
 
@@ -30,27 +58,26 @@ export default function Signup(props) {
                 
             </LocalizationProvider>
             <TextField label="Email ID" variant="outlined" className='mb-3' />
-            <FormControl variant="outlined" className='mb-3'>
-                <InputLabel htmlFor="ID_LOGIN_PASSWORD" >Password</InputLabel>
-                <OutlinedInput
-                    
-                    id="ID_LOGIN_PASSWORD"
-                    type={isPasswordVisible ? 'text' : 'password'}
-                    endAdornment={
+            <TextField variant="outlined"
+                id="ID_LOGIN_PASSWORD"
+                type={isPasswordVisible ? 'text' : 'password'}
+                InputProps={{
+                    endAdornment: (
                         <InputAdornment position="end">
                             <IconButton
                                 aria-label="toggle password visibility"
-                                onClick={hlShowPassword}
+                                onClick={hShowPassword}
                                 onMouseDown={(e) => e.preventDefault()}
                                 edge="end"
                             >
                                 {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
                             </IconButton>
                         </InputAdornment>
-                    }
-                    label="Password"
-                />
-            </FormControl>
+                    ),
+                }}
+                label="Password"
+                className='mb-4'
+            />
             <div className='d-flex justify-content-lg-between align-items-lg-center flex-column flex-lg-row'>
                 <Button className='px-3 py-2 mb-3' variant="contained">Sign Up</Button>
                 <p className='m-0 mb-3'>
