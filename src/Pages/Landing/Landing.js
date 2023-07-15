@@ -11,15 +11,15 @@ export default function Landing() {
 
     const [isBgLoaded, setIsBgLoaded] = useState([false, false]);
     const [isLogin, setIsLogin] = useState(true);
-    useEffect(()=>{
+    useEffect(() => {
         const imgBg = new Image();
         const imgPanelBg = new Image();
 
-        imgBg.onload = ()=>{
-            setIsBgLoaded(prev=>{return [true, prev[1]]});           
+        imgBg.onload = () => {
+            setIsBgLoaded(prev => { return [true, prev[1]] });
         }
-        imgPanelBg.onload=()=>{
-            setIsBgLoaded(prev=>{return [prev[0], true]});
+        imgPanelBg.onload = () => {
+            setIsBgLoaded(prev => { return [prev[0], true] });
         }
         imgBg.src = Background_Image;
         imgPanelBg.src = Panel_Image;
@@ -27,22 +27,23 @@ export default function Landing() {
 
     return (
         <div className="main-container">
-            {isBgLoaded.every(item=>item===true)? (<div className='row panel'>
-                <div className='d-none d-sm-flex col-sm-4 panel-image' />
-                <div className='col-12 col-sm-8 panel-controls'>
-                    <div className='d-flex align-items-center justify-content-center'>
-                        <img src={Logo} alt="Logo" className='mx-1'/>
-                        <p className='m-0 h5'>QSolarLamp</p>
+            {isBgLoaded.every(item => item === true) ? 
+            (
+                <div className='row panel'>
+                    <div className='d-none d-sm-flex col-sm-4 panel-image' />
+                    <div className='col-12 col-sm-8 panel-controls'>
+                        <div className='d-flex align-items-center justify-content-center'>
+                            <img src={Logo} alt="Logo" className='mx-1' />
+                            <p className='m-0 h5'>QSolarLamp</p>
+                        </div>
+                        {isLogin ? (<Login setIsLogin={setIsLogin} />) : (<Signup setIsLogin={setIsLogin} />)}
                     </div>
-                    {isLogin? (<Login setIsLogin={setIsLogin}/>) : (<Signup setIsLogin={setIsLogin}/>)}
-                    
-                    
                 </div>
-            </div>) 
+            )
             :
-            (<CircularProgress/>)
+            (<CircularProgress />)
             }
-            
+
         </div>
     )
 }

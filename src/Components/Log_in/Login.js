@@ -2,7 +2,7 @@ import './Login.css';
 import { TextField, IconButton, InputAdornment, Button } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import userValid from '../Validation/User_Input_Validation';
+import userValid from '../../Assets/Validation/User_Input_Validation';
 
 
 import { useState } from 'react';
@@ -47,32 +47,21 @@ export default function Login(props) {
                 ...prev,
                 password: {
                     value: partialPass,
-                    error: prev.email.error,
-                    helperText: prev.email.helperText
+                    error: prev.password.error,
+                    helperText: prev.password.helperText
                 }
             };
         });
     }
     const hLogin = () => {
         const emailCheck = userValid.email_check(loginData.email.value);
+        const passCheck = userValid.pass_check(loginData.password.value);
         setLoginData(prev => {
             return {
-                ...prev,
                 email: {
                     value: prev.email.value,
-                    error : emailCheck.error,
-                    helperText : emailCheck.helperText
-                }
-            }
-        });
-        if (emailCheck.error) {
-            return;
-        }
-        const passCheck = userValid.pass_check(loginData.password.value);
-        console.log(passCheck);
-        setLoginData(prev => {
-            return {
-                ...prev,
+                    ...emailCheck
+                },
                 password: {
                     value : prev.password.value,
                     error: passCheck.error,
@@ -80,9 +69,14 @@ export default function Login(props) {
                 }
             }
         });
-        if (passCheck.error) {
-            return;
+        for(const key in loginData){
+            if(loginData.hasOwnProperty(key)){
+                if(loginData[key].error){
+                    return;
+                }
+            }
         }
+        
         //Login code here
         //login API
     }
@@ -99,7 +93,6 @@ export default function Login(props) {
             />
 
             <TextField variant="outlined"
-                id="ID_LOGIN_PASSWORD"
                 type={isPasswordVisible ? 'text' : 'password'}
                 InputProps={{
                     endAdornment: (
@@ -116,14 +109,12 @@ export default function Login(props) {
                     ),
                 }}
                 label="Password"
-                onChange={hPassChange}
-                value={loginData.password.value}
                 className='mb-4'
+                value={loginData.password.value}
                 error={loginData.password.error}
                 helperText={loginData.password.helperText}
+                onChange={hPassChange}
             />
-
-
             <div className='d-flex justify-content-lg-between align-items-lg-center flex-column flex-lg-row'>
                 <Button className='px-3 py-2 mb-3' variant="contained" onClick={hLogin}>Log in</Button>
                 <p className='m-0 mb-3'>

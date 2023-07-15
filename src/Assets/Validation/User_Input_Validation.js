@@ -1,5 +1,5 @@
 import PasswordValidator from "password-validator";
-
+const MAX_AGE = 150;
 const email_check = (data) =>{
     const email = new PasswordValidator();
     email.is().min(4)
@@ -46,12 +46,34 @@ const name_check = (data) => {
     const name_check = name.validate(data, {list: true});
     const initial_check = ['min', 'max'];
     if(name_check.length === 0){
-        return {error : false, message: ''};
+        return {error : false, helperText: ''};
     }
     if(initial_check.some(item=>name_check.includes(item))){
-        return {error : true, message: "Please enter the firstname and lastname between 2 and 20 characters"};
+        return {error : true, helperText: "Please enter the firstname and lastname between 2 and 20 characters"};
     }
-    return {error: true, message: "Please enter the firstname or lastname without any spaces, numbers or symbols"};
+    return {error: true, helperText: "Please enter the firstname or lastname without any spaces, numbers or symbols"};
 }
-
-export default {email_check, pass_check, name_check};
+const dob_check = (data) => {
+    try{
+        const dob = data;
+        if(isNaN(dob)){
+            return {error: true, helperText: 'Please Enter a valid date'};
+        }
+        const sysdate = new Date();
+        const pastDate = new Date(sysdate);
+        const currYear = sysdate.getFullYear();
+        pastDate.setFullYear(currYear - MAX_AGE);
+        if(dob > sysdate){
+            return {error: true, helperText : 'Please Enter a past date'};
+        }
+        if(dob < pastDate){
+            return {error: true, helperText : `Are you really ${currYear - dob.getFullYear()} years old?`};
+        }
+        if(dob >= pastDate && dob <= sysdate){
+            return {error: false, helperText: ''};
+        }
+    }catch(err){
+        return {error: true, helperText: 'Please Enter a valid date'};
+    }
+}
+export default {email_check, pass_check, name_check, dob_check};
