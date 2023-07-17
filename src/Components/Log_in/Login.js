@@ -1,16 +1,18 @@
 import './Login.css';
-import { TextField, IconButton, InputAdornment, Button } from '@mui/material';
+import { TextField, IconButton, InputAdornment } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import userValid from '../../Assets/Validation/User_Input_Validation';
-
-
 import { useState } from 'react';
+import login from '../../Assets/API/Login';
+import { useNavigate } from 'react-router-dom';
+import Button from '@mui/joy/Button';
 
 export default function Login(props) {
 
     const { setIsLogin } = props;
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
     const hShowPassword = () => setIsPasswordVisible(show => !show);
 
     const [loginData, setLoginData] = useState({
@@ -25,7 +27,8 @@ export default function Login(props) {
             helperText: ''
         }
     });
-
+    const [loginClicked, setLoginClicked] = useState(false);
+    const navigate = useNavigate();
 
     const hEmailChange = ({ target }) => {
         const partialEmail = target.value;
@@ -53,7 +56,8 @@ export default function Login(props) {
             };
         });
     }
-    const hLogin = () => {
+    const hLogin = async () => {
+        setLoginClicked(true);
         const emailCheck = userValid.email_check(loginData.email.value);
         const passCheck = userValid.pass_check(loginData.password.value);
         setLoginData(prev => {
@@ -63,33 +67,37 @@ export default function Login(props) {
                     ...emailCheck
                 },
                 password: {
-                    value : prev.password.value,
+                    value: prev.password.value,
                     error: passCheck.error,
                     helperText: passCheck.error ? 'Invalid Password' : ''
                 }
             }
         });
-        for(const key in loginData){
-            if(loginData.hasOwnProperty(key)){
-                if(loginData[key].error){
-                    return;
-                }
-            }
+        if(emailCheck.error || passCheck.error){
+            setLoginClicked(false);
+            return;
         }
-        
+
         //Login code here
         //login API
+        const loginStatus = await login.login_basic({ email: loginData.email.value, password: loginData.password.value });
+        if (!loginStatus) {
+            console.log("login failed");
+            setLoginClicked(false);
+            return;
+        }
+        navigate('/dashboard');
     }
     return (
         <div className="wrapper m-3">
             <h5 className='title-text mb-4 text-center text-sm-start'>Log into your account</h5>
-            <TextField label="Email ID" 
-                       variant="outlined" 
-                       className='mb-4' 
-                       value={loginData.email.value} 
-                       onChange={hEmailChange} 
-                       error={loginData.email.error} 
-                       helperText={loginData.email.helperText} 
+            <TextField label="Email ID"
+                variant="outlined"
+                className='mb-4'
+                value={loginData.email.value}
+                onChange={hEmailChange}
+                error={loginData.email.error}
+                helperText={loginData.email.helperText}
             />
 
             <TextField variant="outlined"
@@ -116,7 +124,13 @@ export default function Login(props) {
                 onChange={hPassChange}
             />
             <div className='d-flex justify-content-lg-between align-items-lg-center flex-column flex-lg-row'>
-                <Button className='px-3 py-2 mb-3' variant="contained" onClick={hLogin}>Log in</Button>
+                <Button className='px-3 py-2 mb-3' 
+                    variant="solid" onClick={hLogin} 
+                    loading={loginClicked}
+                    loadingPosition='end'
+                    >
+                    Log in
+                </Button>
                 <p className='m-0 mb-3'>
                     Don't have an account? <span className='switcher' onClick={() => setIsLogin(false)}>Register here</span>
                 </p>

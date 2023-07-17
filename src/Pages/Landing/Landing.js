@@ -6,28 +6,52 @@ import Background_Image from '../../Assets/Images/Landing/landing-background.jpg
 import Panel_Image from '../../Assets/Images/Landing/panel-background.jpg'
 import { useEffect, useState } from 'react';
 import Signup from '../../Components/Signup/Signup';
+import { useNavigate } from 'react-router-dom';
+import login from '../../Assets/API/Login';
 
 export default function Landing() {
 
-    const [isBgLoaded, setIsBgLoaded] = useState([false, false]);
+    const [isBgLoaded, setIsBgLoaded] = useState(0);
     const [isLogin, setIsLogin] = useState(true);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        
+        
+    }, [navigate]);
+
     useEffect(() => {
         const imgBg = new Image();
         const imgPanelBg = new Image();
+        async function autoLogin() {
+            try {
+                const loginStatus = await login.login_auto();
+                if (loginStatus) {
+                    navigate('/dashboard');
+                    return;
+                }
+                setIsBgLoaded(prev => {return prev|0x04}); //load loginpage
+            } catch (err) {
+                setIsBgLoaded(prev => {return prev|0x04}); //load loginpage
+                console.log(err);
+            }
+        }
 
         imgBg.onload = () => {
-            setIsBgLoaded(prev => { return [true, prev[1]] });
+            setIsBgLoaded(prev => { return prev|0x01 });
         }
         imgPanelBg.onload = () => {
-            setIsBgLoaded(prev => { return [prev[0], true] });
+            setIsBgLoaded(prev => { return prev|0x02 });
         }
+
         imgBg.src = Background_Image;
         imgPanelBg.src = Panel_Image;
-    }, []);
+        autoLogin();
+    }, [navigate]);
 
     return (
         <div className="main-container">
-            {isBgLoaded.every(item => item === true) ? 
+            {isBgLoaded === 0x07 ? 
             (
                 <div className='row panel'>
                     <div className='d-none d-sm-flex col-sm-4 panel-image' />

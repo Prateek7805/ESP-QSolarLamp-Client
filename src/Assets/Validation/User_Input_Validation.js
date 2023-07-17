@@ -55,7 +55,10 @@ const name_check = (data) => {
 }
 const dob_check = (data) => {
     try{
-        const dob = data;
+        if(!data){
+            return {error : false, helperText: ''}
+        }
+        const dob = data.$d;
         if(isNaN(dob)){
             return {error: true, helperText: 'Please Enter a valid date'};
         }
@@ -76,4 +79,6 @@ const dob_check = (data) => {
         return {error: true, helperText: 'Please Enter a valid date'};
     }
 }
-export default {email_check, pass_check, name_check, dob_check};
+
+const userValid = {email_check, pass_check, name_check, dob_check};
+export default userValid;

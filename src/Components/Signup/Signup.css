@@ -7,6 +7,9 @@
     cursor: pointer;
     color: #002984;
 }
+.name-row{
+    --bs-gutter-x : 1rem;
+}
 @media (max-width: 576px) {
     .wrapper{
         width: 100%;

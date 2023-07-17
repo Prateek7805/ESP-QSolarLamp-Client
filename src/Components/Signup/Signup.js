@@ -1,33 +1,32 @@
 import './Signup.css';
-import { TextField, IconButton, InputAdornment, Button } from '@mui/material';
+import { TextField, IconButton, InputAdornment } from '@mui/material';
+import { Button } from '@mui/joy';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import dayjs from 'dayjs';
 import { useState } from 'react';
 import userValid from '../../Assets/Validation/User_Input_Validation';
-
+import signup from '../../Assets/API/Signup';
 export default function Signup(props) {
 
     const { setIsLogin } = props;
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const hShowPassword = () => setIsPasswordVisible(show => !show);
-
     const [signupData, setSignupData] = useState({
-        firstName: {
+        first_name: {
             value: '',
             error: false,
             helperText: ''
         },
-        lastName: {
+        last_name: {
             value: '',
             error: false,
             helperText: ''
         },
         date_of_birth: {
-            value: dayjs(''),
+            value: undefined,
             error: false,
             helperText: ''
         },
@@ -42,6 +41,7 @@ export default function Signup(props) {
             helperText: ''
         }
     });
+    const [signinClicked, setSigninClicked] = useState(false);
 
     const hl = {
         email: ({ target }) => {
@@ -70,34 +70,35 @@ export default function Signup(props) {
                 }
             });
         },
-        firstName: ({ target }) => {
+        first_name: ({ target }) => {
             const partialFn = target.value;
             setSignupData(prev => {
                 return {
                     ...prev,
-                    firstName: {
+                    first_name: {
                         value: partialFn,
-                        error: prev.firstName.error,
-                        helperText: prev.firstName.helperText
+                        error: prev.first_name.error,
+                        helperText: prev.first_name.helperText
                     }
                 }
             });
         },
-        lastName: ({ target }) => {
+        last_name: ({ target }) => {
             const partialLn = target.value;
             setSignupData(prev => {
                 return {
                     ...prev,
-                    lastName: {
+                    last_name: {
                         value: partialLn,
-                        error: prev.lastName.error,
-                        helperText: prev.lastName.helperText
+                        error: prev.last_name.error,
+                        helperText: prev.last_name.helperText
                     }
                 }
             });
         },
         date_of_birth: (value) => {
             const partialDOB = value;
+            console.log(partialDOB);
             setSignupData(prev => {
                 return {
                     ...prev,
@@ -111,50 +112,82 @@ export default function Signup(props) {
         }
     }
 
-    const hSignin  = ()=>{
-        const fnCheck = userValid.name_check(signupData.firstName.value);
-        const lnCheck = userValid.name_check(signupData.lastName.value);
-        const dobCheck = userValid.dob_check(signupData.date_of_birth.value.$d);
-        const emailCheck = userValid.email_check(signupData.email.value);
-        const passCheck = userValid.pass_check(signupData.password.value);
-        setSignupData(prev=>{
-            return {
-                firstName : {
-                    value : prev.firstName.value,
-                    ...fnCheck
-                },
-                lastName : {
-                    value : prev.lastName.value,
-                    ...lnCheck
-                },
-                date_of_birth : {
-                    value : prev.date_of_birth.value,
-                    ...dobCheck
-                },
-                email : {
-                    value : prev.email.value,
-                    ...emailCheck
-                },
-                password : {
-                    value : prev.password.value,
-                    ...passCheck
+    const hSignin = async () => {
+        try {
+            setSigninClicked(true);
+            const fnCheck = userValid.name_check(signupData.first_name.value);
+            const lnCheck = userValid.name_check(signupData.last_name.value);
+            const dobCheck = userValid.dob_check(signupData.date_of_birth.value);
+            const emailCheck = userValid.email_check(signupData.email.value);
+            const passCheck = userValid.pass_check(signupData.password.value);
+            setSignupData(prev => {
+                return {
+                    first_name: {
+                        value: prev.first_name.value,
+                        ...fnCheck
+                    },
+                    last_name: {
+                        value: prev.last_name.value,
+                        ...lnCheck
+                    },
+                    date_of_birth: {
+                        value: prev.date_of_birth.value,
+                        ...dobCheck
+                    },
+                    email: {
+                        value: prev.email.value,
+                        ...emailCheck
+                    },
+                    password: {
+                        value: prev.password.value,
+                        ...passCheck
+                    }
+                }
+            });
+            if (fnCheck.error
+                || lnCheck.error
+                || dobCheck.error
+                || emailCheck.error
+                || passCheck.error
+            ) {
+                setSigninClicked(false);
+                return;
+            }
+            //signup
+            const req_body = {};
+            for (const key in signupData) {
+                if (signupData.hasOwnProperty(key)
+                    && signupData[key].value !== undefined
+                    && signupData[key].value !== null) {
+
+                    req_body[key] = signupData[key].value;
                 }
             }
-        });
+            const response = await signup(req_body);
+            console.log(response);
+            setSigninClicked(false);
+            //clear fields 
+            //show modal
+            //setIsLogin -> true
+        } catch (error) {
+            setSigninClicked(false);
+            console.log(error);
+        }
+
     }
     return (
         <div className="wrapper m-3">
 
-            <div className='row'>
+            <div className='row name-row'>
                 <div className='col-12 col-sm-6'>
                     <TextField
                         label="First Name"
                         variant="outlined"
                         className='mb-3 col-12'
-                        value={signupData.firstName.value}
-                        error={signupData.firstName.error}
-                        helperText={signupData.firstName.helperText}
-                        onChange={hl.firstName}
+                        value={signupData.first_name.value}
+                        error={signupData.first_name.error}
+                        helperText={signupData.first_name.helperText}
+                        onChange={hl.first_name}
                     />
                 </div>
                 <div className='col-12 col-sm-6'>
@@ -162,10 +195,10 @@ export default function Signup(props) {
                         label="Last Name"
                         variant="outlined"
                         className='mb-3 col-12'
-                        value={signupData.lastName.value}
-                        error={signupData.lastName.error}
-                        helperText={signupData.lastName.helperText}
-                        onChange={hl.lastName}
+                        value={signupData.last_name.value}
+                        error={signupData.last_name.error}
+                        helperText={signupData.last_name.helperText}
+                        onChange={hl.last_name}
                     />
                 </div>
             </div>
@@ -205,14 +238,21 @@ export default function Signup(props) {
                     ),
                 }}
                 label="Password"
-                className='mb-4'
+                className='mb-3'
                 value={signupData.password.value}
                 error={signupData.password.error}
                 helperText={signupData.password.helperText}
                 onChange={hl.password}
             />
             <div className='d-flex justify-content-lg-between align-items-lg-center flex-column flex-lg-row'>
-                <Button className='px-3 py-2 mb-3' variant="contained" onClick={hSignin}>Sign Up</Button>
+                <Button className='px-3 py-2 mb-3'
+                    variant="solid"
+                    onClick={hSignin}
+                    loading={signinClicked}
+                    loadingPosition='end'
+                >
+                    Sign Up
+                </Button>
                 <p className='m-0 mb-3'>
                     Already a member? <span className='switcher' onClick={() => setIsLogin(true)}>Login here</span>
                 </p>
