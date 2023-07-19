@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const ACCESS_TIMEOUT = process.env.REACT_APP_ACCESS_TIMEOUT;
+const ACCESS_TIMEOUT = parseInt(process.env.REACT_APP_ACCESS_TIMEOUT);
 const errorMessages = {
     jwt: 'invalid jwt'
 }
