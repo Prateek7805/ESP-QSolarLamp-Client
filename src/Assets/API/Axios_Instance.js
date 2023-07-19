@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+const ACCESS_TIMEOUT = process.env.REACT_APP_ACCESS_TIMEOUT;
 const errorMessages = {
     jwt: 'invalid jwt'
 }
@@ -10,11 +11,13 @@ const api = axios.create({
 const getAccessToken = async () => {
     try {
         const response = await api.get('/access_token', {
+            timeout: ACCESS_TIMEOUT,
             withCredentials: true
         });
         const access_token = response.data.access_token;
         return access_token;
     } catch (error) {
+        console.log(error);
         throw new Error("Failed to obtain AccessToken");
     }
 }

@@ -10,7 +10,7 @@ import { useState } from 'react';
 import userValid from '../../Assets/Validation/User_Input_Validation';
 import signup from '../../Assets/API/Signup';
 export default function Signup(props) {
-
+    
     const { setIsLogin } = props;
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const hShowPassword = () => setIsPasswordVisible(show => !show);
@@ -166,7 +166,7 @@ export default function Signup(props) {
             const response = await signup(req_body);
             console.log(response);
             setSigninClicked(false);
-            //clear fields 
+            setIsLogin(true);
             //show modal
             //setIsLogin -> true
         } catch (error) {
