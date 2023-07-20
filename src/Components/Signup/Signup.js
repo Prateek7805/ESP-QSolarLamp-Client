@@ -154,16 +154,19 @@ export default function Signup(props) {
                 return;
             }
             //signup
-            const req_body = {};
+            const reqBody = {};
             for (const key in signupData) {
                 if (signupData.hasOwnProperty(key)
                     && signupData[key].value !== undefined
                     && signupData[key].value !== null) {
 
-                    req_body[key] = signupData[key].value;
+                    reqBody[key] = signupData[key].value;
                 }
             }
-            const response = await signup(req_body);
+            const originURL = process.env.REACT_APP_SELF_URL;
+            reqBody['origin'] = originURL;
+            console.log(reqBody);
+            const response = await signup(reqBody);
             console.log(response);
             setSigninClicked(false);
             setIsLogin(true);
