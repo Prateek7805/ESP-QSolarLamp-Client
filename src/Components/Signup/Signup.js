@@ -6,12 +6,15 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import userValid from '../../Assets/Validation/User_Input_Validation';
 import signup from '../../Assets/API/Signup';
+import { Info } from '../Context/Modal_Context';
+
 export default function Signup(props) {
     
     const { setIsLogin } = props;
+    const {setMInfo} = useContext(Info);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const hShowPassword = () => setIsPasswordVisible(show => !show);
     const [signupData, setSignupData] = useState({
@@ -169,9 +172,15 @@ export default function Signup(props) {
             const response = await signup(reqBody);
             console.log(response);
             setSigninClicked(false);
+            setMInfo(prev=>{
+                return {
+                    ...prev,
+                    open: true,
+                    title: 'Signup Successful',
+                    message: response.message
+                }
+            });
             setIsLogin(true);
-            //show modal
-            //setIsLogin -> true
         } catch (error) {
             setSigninClicked(false);
             console.log(error);
@@ -179,6 +188,7 @@ export default function Signup(props) {
 
     }
     return (
+        
         <div className="wrapper m-3">
 
             <div className='row name-row'>
@@ -261,5 +271,6 @@ export default function Signup(props) {
                 </p>
             </div>
         </div>
+        
     );
 }

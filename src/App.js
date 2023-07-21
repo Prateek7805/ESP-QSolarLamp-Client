@@ -2,10 +2,11 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Landing from './Pages/Landing/Landing';
-
+import ModalContext from './Components/Context/Modal_Context';
 
 function App() {
   return (
+    <ModalContext>
     <div className="App">
       <Router>
         <Routes>
@@ -16,6 +17,7 @@ function App() {
         </Routes>
       </Router>
     </div>
+    </ModalContext>
   );
 }
 
