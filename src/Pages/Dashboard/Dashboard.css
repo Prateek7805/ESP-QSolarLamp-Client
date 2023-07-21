@@ -1,0 +1,16 @@
+:root{
+    --c-dashboard-bg : #f6f8fa;
+}
+.ds-main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: var(--c-dashboard-bg);
+}
+.ds-appbar{
+    padding: 5px;
+    width: 100%;
+}

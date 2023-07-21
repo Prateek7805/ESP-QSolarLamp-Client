@@ -1,7 +1,7 @@
 import Modal from '@mui/joy/Modal';
 import ModalClose from '@mui/joy/ModalClose';
 import Typography from '@mui/joy/Typography';
-import Sheet from '@mui/joy/Sheet';
+import ModalDialog from '@mui/joy/ModalDialog';
 import { useContext } from 'react';
 import { Info } from '../Context/Modal_Context';
 
@@ -23,8 +23,9 @@ export default function InfoModal() {
           onClose={hClose}
           sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
-          <Sheet
+          <ModalDialog
             variant="outlined"
+            color={mInfo.error? "danger" : "success"}
             sx={{
               maxWidth: 500,
               borderRadius: 'md',
@@ -54,7 +55,7 @@ export default function InfoModal() {
             <Typography id="modal-desc" textColor="text.tertiary">
               {mInfo.message}
             </Typography>
-          </Sheet>
+          </ModalDialog>
         </Modal>
     );
 }

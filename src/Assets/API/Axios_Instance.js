@@ -15,12 +15,26 @@ const getAccessToken = async () => {
             withCredentials: true
         });
         const access_token = response.data.access_token;
+        localStorage.setItem('access_token', access_token);
         return access_token;
     } catch (error) {
         console.log(error);
         throw new Error("Failed to obtain AccessToken");
     }
 }
+
+api.interceptors.request.use(
+    (config)=>{
+        const access_token = localStorage.getItem('access_token');
+        if(access_token){
+            config.headers['x-auth-token'] = access_token;
+        }
+        return config;
+    },
+    (error)=>{
+        return Promise.reject(error);
+    }
+)
 api.interceptors.response.use(response => response,
     async (error) => {
         try {

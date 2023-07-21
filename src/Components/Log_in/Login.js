@@ -3,14 +3,15 @@ import { TextField, IconButton, InputAdornment } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import userValid from '../../Assets/Validation/User_Input_Validation';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import login from '../../Assets/API/Login';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
-
+import { Info } from '../Context/Modal_Context';
 export default function Login(props) {
 
     const { setIsLogin } = props;
+    const {setMInfo} = useContext(Info);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const hShowPassword = () => setIsPasswordVisible(show => !show);
@@ -81,9 +82,18 @@ export default function Login(props) {
         //Login code here
         //login API
         const loginStatus = await login.login_basic({ email: loginData.email.value, password: loginData.password.value });
-        if (!loginStatus) {
+        if (loginStatus.error) {
             console.log("login failed");
             setLoginClicked(false);
+            setMInfo(prev=>{
+                return {
+                    ...prev,
+                    open: true,
+                    error: true,
+                    title: 'Unable to login',
+                    message: loginStatus.message
+                }
+            })
             return;
         }
         navigate('/dashboard');

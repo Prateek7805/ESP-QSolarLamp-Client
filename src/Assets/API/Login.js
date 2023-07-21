@@ -5,10 +5,9 @@ const login_basic = async(data) =>{
         const response = await api.post('/login', data, {withCredentials : true});
         const access_token = response.data.access_token;
         localStorage.setItem('access_token', access_token);
-        return true;
+        return {error: false};
     }catch(error){
-        console.log(error);
-        return false;
+        return {error: true, message: error.response.data.message};
     }
 }
 
@@ -20,7 +19,6 @@ const login_auto = async () => {
         }
         const access_token = await getAccessToken();
         if(access_token){
-            localStorage.setItem('access_token', access_token);
             return true;
         }
         return false;

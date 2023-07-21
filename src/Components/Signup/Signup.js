@@ -170,17 +170,19 @@ export default function Signup(props) {
             reqBody['origin'] = originURL;
             console.log(reqBody);
             const response = await signup(reqBody);
-            console.log(response);
+            const title = response.error? 'Error in Signup' : 'Signup Successful';
             setSigninClicked(false);
+            setIsLogin(true);
             setMInfo(prev=>{
                 return {
                     ...prev,
                     open: true,
-                    title: 'Signup Successful',
+                    error: response.error,
+                    title: title,
                     message: response.message
                 }
             });
-            setIsLogin(true);
+            
         } catch (error) {
             setSigninClicked(false);
             console.log(error);
