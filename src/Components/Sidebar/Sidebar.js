@@ -1,15 +1,17 @@
 import Box from '@mui/material/Box';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SettingsIcon from '@mui/icons-material/Settings';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+
 import { useState } from 'react';
 
 export default function Sidebar() {
@@ -25,15 +27,14 @@ export default function Sidebar() {
     return (
         <>
             <IconButton
-                color="primary"
                 aria-label="open drawer"
                 edge="start"
                 onClick={e=>toggleDrawer(e, true)}
-                sx={{ ml: 1, mr: 2, display: { xs: 'none', sm: 'flex' } }}
+                sx={{color: '#2BB3C0', ml: 1, mr: 2 }}
             >
                 <MenuIcon />
             </IconButton>
-            <SwipeableDrawer
+            <Drawer
                 anchor='left'
                 open={open}
                 onClose={e => toggleDrawer(e, false)}
@@ -46,32 +47,20 @@ export default function Sidebar() {
                     onKeyDown={e => toggleDrawer(e, false)}
                 >
                     <List>
-                        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                            <ListItem key={text} disablePadding>
+                        {[{text: 'Profile', icon: <AccountCircleIcon/>}, {text: 'Account', icon : <SettingsIcon/>}, {text: 'Logout', icon: <MeetingRoomIcon/>}].map((item, index) => (
+                            <ListItem key={index} disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                        {item.icon}
                                     </ListItemIcon>
-                                    <ListItemText primary={text} />
+                                    <ListItemText primary={item.text} />
                                 </ListItemButton>
                             </ListItem>
                         ))}
                     </List>
                     <Divider />
-                    <List>
-                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                            <ListItem key={text} disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                    </ListItemIcon>
-                                    <ListItemText primary={text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
                 </Box>
-            </SwipeableDrawer>
+            </Drawer>
         </>
     )
 }
