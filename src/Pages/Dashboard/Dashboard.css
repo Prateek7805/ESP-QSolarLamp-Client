@@ -11,6 +11,15 @@
     background-color: var(--c-dashboard-bg);
 }
 .ds-appbar{
+    display: flex;
     padding: 5px;
     width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+.ds-devices-container{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
 }

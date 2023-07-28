@@ -4,11 +4,7 @@ const signup = async (data) => {
         const response = await api.post('/signup', data);
         return {error: false, message : response.data.message};
     }catch(error){
-        console.log(error);
-        if(error?.response){
-            return {error: true, message: error.response.data.message};
-        }
-        return {error: true, message: 'Error Signing up'};
+        return {error: true, message: error?.response.data.message};
     }
 }
 

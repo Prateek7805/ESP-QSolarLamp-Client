@@ -7,7 +7,7 @@ const login_basic = async(data) =>{
         localStorage.setItem('access_token', access_token);
         return {error: false};
     }catch(error){
-        return {error: true, message: error.response.data.message};
+        return {error: true, message: error?.response.data.message};
     }
 }
 

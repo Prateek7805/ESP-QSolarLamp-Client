@@ -46,6 +46,7 @@ api.interceptors.response.use(response => response,
                     error.config.headers['x-auth-token'] = access_token;
                     return api(error.config);
                 } catch (refreshErr) {
+                    localStorage.removeItem('access_token');
                     return Promise.reject(refreshErr);
                 }
             }

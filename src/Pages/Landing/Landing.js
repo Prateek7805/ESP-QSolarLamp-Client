@@ -17,11 +17,6 @@ export default function Landing() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        
-        
-    }, [navigate]);
-
-    useEffect(() => {
         const imgBg = new Image();
         const imgPanelBg = new Image();
         async function autoLogin() {

@@ -1,7 +1,39 @@
+:root{
+  --sc-width : 10px;
+  --sc-track-color : #444654;
+  --sc-track-hover-color : #797a85;
+
+  --resume-r-pd : 10px; 
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+body::-webkit-scrollbar {
+  width: var(--sc-width);
+  display: block;
+
+}
+
+/* Track */
+body::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+ 
+/* Handle */
+body::-webkit-scrollbar-thumb {
+  background-color: var(--sc-track-color);
+  border-radius: 20px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Handle on hover */
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--sc-track-hover-color); 
+  transform: scale(1.2);
 }

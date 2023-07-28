@@ -30,7 +30,7 @@ export default function Sidebar() {
                 aria-label="open drawer"
                 edge="start"
                 onClick={e=>toggleDrawer(e, true)}
-                sx={{color: '#2BB3C0', ml: 1, mr: 2 }}
+                sx={{color: '#2BB3C0', ml: 1, mr: 1 }}
             >
                 <MenuIcon />
             </IconButton>
@@ -38,7 +38,6 @@ export default function Sidebar() {
                 anchor='left'
                 open={open}
                 onClose={e => toggleDrawer(e, false)}
-                onOpen={e => toggleDrawer(e, true)}
             >
                 <Box
                     sx={{ width: 250 }}
