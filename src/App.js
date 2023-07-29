@@ -13,7 +13,6 @@ function App() {
         <Routes>
           <Route path='/' element={<Landing/>} />
           <Route path='/dashboard' element={<Dashboard/>} />
-          <Route path='/controls/:name' element={<></>} />
           <Route path='/settings' element={<></>} />
         </Routes>
       </Router>

@@ -1,6 +1,13 @@
 import { createContext, useState } from "react";
 
-export const Info = createContext({
+export const MLanding = createContext({
+    open: false,
+    error: false,
+    title: '',
+    message: ''
+});
+
+export const MDashboard = createContext({
     open: false,
     error: false,
     title: '',
@@ -8,12 +15,13 @@ export const Info = createContext({
 });
 
 export default function ModalContext({ children }) {
-    const [mInfo, setMInfo] = useState({ open: false, error: false, title:'', message:'' });
-
+    const [mLanding, setMLanding] = useState({ open: false, error: false, title:'', message:'' });
+    const [mDashboard, setMDashboard] = useState({ open: false, error: false, title:'', message:'' });
     return (
-        <Info.Provider value={{ mInfo, setMInfo }}>
+        <MLanding.Provider value={{ mLanding, setMLanding }}>
+            <MDashboard.Provider value={{ mDashboard, setMDashboard }}>
                     {children}
-        </Info.Provider>
-
+            </MDashboard.Provider>
+        </MLanding.Provider>
     )
 }

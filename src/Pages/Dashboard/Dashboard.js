@@ -4,6 +4,7 @@ import ProfileMenu from '../../Components/ProfileMenu/ProfileMenu';
 import DeviceCard from '../../Components/DeviceCard/DeviceCard';
 import deviceAPI from '../../Assets/API/Device';
 import { useEffect, useState } from 'react';
+import DashboardModal from '../../Components/DashboardModal/Modal';
 
 export default function Dashboard(){
     const [devices, setDevices] = useState([]);
@@ -29,6 +30,7 @@ export default function Dashboard(){
 
     return (
         <div className="ds-main-container">
+            <DashboardModal/>
             <div className='ds-appbar'>
                 <Sidebar />
                 <ProfileMenu initials={'P'} />

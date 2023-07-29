@@ -3,12 +3,12 @@ import ModalClose from '@mui/joy/ModalClose';
 import Typography from '@mui/joy/Typography';
 import ModalDialog from '@mui/joy/ModalDialog';
 import { useContext } from 'react';
-import { Info } from '../Context/Modal_Context';
+import { MLanding } from '../Context/Modal_Context';
 
-export default function InfoModal() {
-    const {mInfo, setMInfo} = useContext(Info);
+export default function LandingModal() {
+    const {mLanding, setMLanding} = useContext(MLanding);
     const hClose =()=>{
-        setMInfo(prev=>{
+        setMLanding(prev=>{
             return {
                 ...prev,
                 open : false
@@ -19,13 +19,13 @@ export default function InfoModal() {
         <Modal
           aria-labelledby="modal-title"
           aria-describedby="modal-desc"
-          open={mInfo.open}
+          open={mLanding.open}
           onClose={hClose}
           sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
           <ModalDialog
             variant="outlined"
-            color={mInfo.error? "danger" : "success"}
+            color={mLanding.error? "danger" : "success"}
             sx={{
               maxWidth: 500,
               borderRadius: 'md',
@@ -50,10 +50,10 @@ export default function InfoModal() {
               fontWeight="lg"
               mb={1}
             >
-              {mInfo.title}
+              {mLanding.title}
             </Typography>
             <Typography id="modal-desc" textColor="text.tertiary">
-              {mInfo.message}
+              {mLanding.message}
             </Typography>
           </ModalDialog>
         </Modal>

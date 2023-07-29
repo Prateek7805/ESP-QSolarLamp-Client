@@ -7,11 +7,11 @@ import { useContext, useState } from 'react';
 import login from '../../Assets/API/Login';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
-import { Info } from '../Context/Modal_Context';
+import { MLanding } from '../Context/Modal_Context';
 export default function Login(props) {
 
     const { setIsLogin } = props;
-    const {setMInfo} = useContext(Info);
+    const {setMLanding} = useContext(MLanding);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
     const hShowPassword = () => setIsPasswordVisible(show => !show);
@@ -61,6 +61,7 @@ export default function Login(props) {
         setLoginClicked(true);
         const emailCheck = userValid.email_check(loginData.email.value);
         const passCheck = userValid.pass_check(loginData.password.value);
+        console.table({emailCheck, passCheck});
         setLoginData(prev => {
             return {
                 email: {
@@ -85,13 +86,14 @@ export default function Login(props) {
         if (loginStatus.error) {
             console.log("login failed");
             setLoginClicked(false);
-            setMInfo(prev=>{
+            let message = Array.isArray(loginStatus.message) ? loginStatus.message[0].message : loginStatus.message;
+            setMLanding(prev=>{
                 return {
                     ...prev,
                     open: true,
                     error: true,
                     title: 'Unable to login',
-                    message: loginStatus.message
+                    message: message
                 }
             })
             return;

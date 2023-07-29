@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import Signup from '../../Components/Signup/Signup';
 import { useNavigate } from 'react-router-dom';
 import login from '../../Assets/API/Login';
-import InfoModal  from '../../Components/Info_Modal/Modal';
+import LandingModal  from '../../Components/LandingModal/Modal';
 
 export default function Landing() {
 
@@ -47,7 +47,7 @@ export default function Landing() {
 
     return (
         <div className="main-container">
-            <InfoModal/>
+            <LandingModal/>
             {isBgLoaded === 0x07 ? 
             (
                 <div className='row panel'>

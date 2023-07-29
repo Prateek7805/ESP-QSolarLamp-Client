@@ -9,12 +9,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { useContext, useState } from 'react';
 import userValid from '../../Assets/Validation/User_Input_Validation';
 import signup from '../../Assets/API/Signup';
-import { Info } from '../Context/Modal_Context';
+import { MLanding } from '../Context/Modal_Context';
 
 export default function Signup(props) {
     
     const { setIsLogin } = props;
-    const {setMInfo} = useContext(Info);
+    const {setMLanding} = useContext(MLanding);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const hShowPassword = () => setIsPasswordVisible(show => !show);
     const [signupData, setSignupData] = useState({
@@ -168,18 +168,21 @@ export default function Signup(props) {
             }
             const originURL = process.env.REACT_APP_SELF_URL;
             reqBody['origin'] = originURL;
-            console.log(reqBody);
+
             const response = await signup(reqBody);
             const title = response.error? 'Error in Signup' : 'Signup Successful';
+
+            const message = Array.isArray(response.message) ? response.message[0].message : response.message;
             setSigninClicked(false);
             setIsLogin(true);
-            setMInfo(prev=>{
+
+            setMLanding(prev=>{
                 return {
                     ...prev,
                     open: true,
                     error: response.error,
                     title: title,
-                    message: response.message
+                    message: message
                 }
             });
             

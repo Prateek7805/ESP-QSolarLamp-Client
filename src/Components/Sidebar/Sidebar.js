@@ -12,10 +12,16 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 
-import { useState } from 'react';
+import logout from '../../Assets/API/Logout';
 
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { MDashboard } from '../Context/Modal_Context';
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
+    
+    const {setMDashboard} = useContext(MDashboard);
+    const navigate = useNavigate();
 
     const toggleDrawer = (e, state) => {
         if (e && e.type === 'keydown' && (e.key === 'Tab' || e.key === 'Shift')) {
@@ -24,6 +30,30 @@ export default function Sidebar() {
         setOpen(state);
     };
 
+    const handleLogout = async () => {
+        try {
+            const response = await logout();
+            if (response.error) {
+                console.log(response.message);
+                setMDashboard({
+                    open: true,
+                    error: true,
+                    title: 'Error in Logging out',
+                    message: response.message
+                });
+                return; //-> uncomment for prod
+            }
+            navigate('/');
+        } catch (error) {
+            setMDashboard({
+                open: true,
+                error: true,
+                title: "Error in Logging out",
+                message: "Unexpected exception in UI"
+            });
+        }
+    };
+    
     return (
         <>
             <IconButton
@@ -46,9 +76,9 @@ export default function Sidebar() {
                     onKeyDown={e => toggleDrawer(e, false)}
                 >
                     <List>
-                        {[{text: 'Profile', icon: <AccountCircleIcon/>}, {text: 'Account', icon : <SettingsIcon/>}, {text: 'Logout', icon: <MeetingRoomIcon/>}].map((item, index) => (
+                        {[{text: 'Profile', icon: <AccountCircleIcon/>, hclick: ()=>{}}, {text: 'Account', icon : <SettingsIcon/>, hclick: ()=>{}}, {text: 'Logout', icon: <MeetingRoomIcon/>, hclick: handleLogout}].map((item, index) => (
                             <ListItem key={index} disablePadding>
-                                <ListItemButton>
+                                <ListItemButton onClick={item.hclick}>
                                     <ListItemIcon>
                                         {item.icon}
                                     </ListItemIcon>
