@@ -11,8 +11,9 @@ import { useState, useContext } from 'react';
 import { MDevice, MDashboard } from '../Context/Modal_Context';
 import deviceValid from '../../Assets/Validation/Device_Input_Validation'
 import deviceAPI from '../../Assets/API/Device';
+import { DeviceList } from '../Context/Dashboard_Context';
 
-export default function AddDeviceModal(props) {
+export default function AddDeviceModal() {
 
     const { mDevice, setMDevice } = useContext(MDevice);
     const { setMDashboard } = useContext(MDashboard);
@@ -36,7 +37,7 @@ export default function AddDeviceModal(props) {
             helperText: ''
         }
     };
-    const {setDevices} = props.deviceState;
+    const {setDevices} = useContext(DeviceList);
     const [deviceData, setDeviceData] = useState(INIT_DEVICE_DATA);
     const hdata = (e) => {
         const id_mapper = {

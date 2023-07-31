@@ -1,0 +1,6 @@
+.ds-devices-container{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}

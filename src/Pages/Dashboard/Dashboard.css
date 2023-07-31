@@ -9,6 +9,7 @@
     min-width: 100vw;
     min-height: 100vh;
     background-color: var(--c-dashboard-bg);
+    padding-bottom: 10px;
 }
 .ds-appbar{
     display: flex;
@@ -16,10 +17,4 @@
     width: 100%;
     justify-content: space-between;
     align-items: center;
-}
-.ds-devices-container{
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    width: 90%;
 }
