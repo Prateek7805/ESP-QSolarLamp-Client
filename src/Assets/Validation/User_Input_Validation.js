@@ -49,9 +49,9 @@ const name_check = (data) => {
         return {error : false, helperText: ''};
     }
     if(initial_check.some(item=>name_check.includes(item))){
-        return {error : true, helperText: "Please enter the firstname and lastname between 2 and 20 characters"};
+        return {error : true, helperText: "Please enter the name between 2 and 20 characters"};
     }
-    return {error: true, helperText: "Please enter the firstname or lastname without any spaces, numbers or symbols"};
+    return {error: true, helperText: "Please enter the name without any spaces, numbers or symbols"};
 }
 const dob_check = (data) => {
     try{

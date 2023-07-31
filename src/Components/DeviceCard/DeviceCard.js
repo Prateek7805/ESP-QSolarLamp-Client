@@ -6,8 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import { useContext } from 'react';
-import { MDashboard } from '../Context/Modal_Context';
-
+import { MDashboard, MDevice } from '../Context/Modal_Context';
 
 const ColorButton = styled(Button)(({ theme }) => ({
     textTransform: 'none',
@@ -17,9 +16,18 @@ const ColorButton = styled(Button)(({ theme }) => ({
         backgroundColor: '#ffffff',
     },
 }));
+
 const AddDevice = () => {
+    const {setMDevice} = useContext(MDevice);
+    const hAddDevice = ()=>{
+        setMDevice(prev=>{
+            return {
+            ...prev,
+            open: true
+        }});
+    }
     return (
-        <ColorButton variant="contained" sx={{ width: '100%', minHeight: '200px', display: 'grid', placeItems: 'center' }}>
+        <ColorButton variant="contained" onClick={hAddDevice} sx={{ width: '100%', minHeight: '200px', display: 'grid', placeItems: 'center' }}>
 
             <Typography variant="h5" color="text.secondary" sx={{ mx: 2 }}>
                 Add a device
@@ -30,14 +38,17 @@ const AddDevice = () => {
 }
 const Device = (props) => {
     const { name, power, brightness } = props;
-    const {setMDashboard} = useContext(MDashboard);
+    const { setMDashboard } = useContext(MDashboard);
 
     const hControls = () => {
-        setMDashboard({
-            open: true,
-            error: false,
-            title: 'just',
-            message: 'a test'
+        setMDashboard(prev => {
+            return {
+                ...prev,
+                open: true,
+                error: false,
+                title: 'just',
+                message: 'a test'
+            }
         });
     }
 

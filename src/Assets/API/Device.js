@@ -9,5 +9,15 @@ const getAllStatuses = async() =>{
         return {error: true, message: error?.response.data.message};
     }
 }
-const deviceAPI = {getAllStatuses};
+
+const register = async (data)=>{
+    try{
+        const response = await api.post('/register', data);
+        return {error: false, message: response.data.message};
+    }catch(error){
+        return {error: true, message: error?.response.data.message};
+    }
+}
+
+const deviceAPI = {getAllStatuses, register};
 export default deviceAPI;

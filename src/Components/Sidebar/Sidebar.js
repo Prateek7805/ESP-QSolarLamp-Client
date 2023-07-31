@@ -17,6 +17,8 @@ import logout from '../../Assets/API/Logout';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MDashboard } from '../Context/Modal_Context';
+
+
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
     
@@ -39,7 +41,8 @@ export default function Sidebar() {
                     open: true,
                     error: true,
                     title: 'Error in Logging out',
-                    message: response.message
+                    message: response.message,
+                    navigate: '/'
                 });
                 return; //-> uncomment for prod
             }
@@ -49,11 +52,12 @@ export default function Sidebar() {
                 open: true,
                 error: true,
                 title: "Error in Logging out",
-                message: "Unexpected exception in UI"
+                message: "Unexpected exception in UI",
+                navigate: '/'
             });
         }
     };
-    
+
     return (
         <>
             <IconButton

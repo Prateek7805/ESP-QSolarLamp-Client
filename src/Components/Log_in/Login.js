@@ -137,7 +137,8 @@ export default function Login(props) {
             />
             <div className='d-flex justify-content-lg-between align-items-lg-center flex-column flex-lg-row'>
                 <Button className='px-3 py-2 mb-3' 
-                    variant="solid" onClick={hLogin} 
+                    variant="solid" 
+                    onClick={hLogin} 
                     loading={loginClicked}
                     loadingPosition='end'
                     >

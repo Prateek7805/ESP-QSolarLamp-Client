@@ -29,7 +29,8 @@ export default function ProfileMenu(props) {
                     open: true,
                     error: true,
                     title: "Error in Logging out",
-                    message: response.message
+                    message: response.message,
+                    navigate: '/'
                 });
                 return;
             }
@@ -39,7 +40,8 @@ export default function ProfileMenu(props) {
                 open: true,
                 error: true,
                 title: "Error in Logging out",
-                message: "Unexpected exception in UI"
+                message: "Unexpected exception in UI",
+                navigate: '/'
             });
         }
 

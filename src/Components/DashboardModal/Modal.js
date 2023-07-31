@@ -4,23 +4,29 @@ import Typography from '@mui/joy/Typography';
 import ModalDialog from '@mui/joy/ModalDialog';
 import { useContext } from 'react';
 import { MDashboard } from '../Context/Modal_Context';
+import { useNavigate } from 'react-router-dom';
 
 export default function DashboardModal() {
+    const navigate = useNavigate();
     const {mDashboard, setMDashboard} = useContext(MDashboard);
     const hClose =()=>{
+        if(mDashboard.navigate !== ''){
+            navigate(mDashboard.navigate);
+        }
         setMDashboard(prev=>{
             return {
                 ...prev,
-                open : false
+                open : false,
+                navigate: ''
             }
         })
     }
     return (
         <Modal
           aria-labelledby="modal-title"
-          aria-describedby="modal-desc"
-          open={mDashboard.open}
-          onClose={hClose}
+          aria-describedby="modal-desc" 
+          open={mDashboard.open} 
+          onClose={hClose} 
           sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         >
           <ModalDialog

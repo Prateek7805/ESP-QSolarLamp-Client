@@ -2,7 +2,7 @@ import api from "./Axios_Instance";
 
 const logout = async () =>{
     try{
-        const response = await api.get('/logout');
+        const response = await api.get('/logout', {withCredentials: true});
         const message = response.data.message;
         console.log(response);
         localStorage.removeItem('access_token');
