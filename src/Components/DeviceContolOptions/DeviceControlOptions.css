@@ -1,0 +1,25 @@
+:root{
+    --c-sco-container-bg: #ECECEC;
+}
+.dco-container{
+    background-color: var(--c-sco-container-bg);
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    border-radius: 10px;
+}
+
+.dco-title-wrap{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dco-close{
+    position: absolute !important;
+    right: 0;
+}

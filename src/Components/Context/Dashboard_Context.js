@@ -1,14 +1,14 @@
 import { createContext, useState } from "react";
 
 export const DashboardPageStatus = createContext({
-    page: 'devices',
+    path: 'devices',
     device_name: ''
 });
 export const DeviceList = createContext([]);
 
 export default function DashboardContext({ children }) {
     const [pageStatus, setPageStatus] = useState({
-        page: 'devices',
+        path: 'devices',
         device_name: ''
     });
     const [devices, setDevices] = useState([]);

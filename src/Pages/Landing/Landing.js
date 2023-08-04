@@ -1,5 +1,4 @@
 import Login from '../../Components/Log_in/Login';
-import CircularProgress from '@mui/joy/CircularProgress';
 import './Landing.css';
 import Logo from '../../Assets/Images/Landing/Logo.svg';
 import Background_Image from '../../Assets/Images/Landing/landing-background.jpg';
@@ -9,6 +8,7 @@ import Signup from '../../Components/Signup/Signup';
 import { useNavigate } from 'react-router-dom';
 import login from '../../Assets/API/Login';
 import LandingModal  from '../../Components/LandingModal/Modal';
+import Spinner from '../../Components/Spinner/Spinner';
 
 export default function Landing() {
 
@@ -62,7 +62,7 @@ export default function Landing() {
                 </div>
             )
             :
-            (<CircularProgress />)
+            (<Spinner/>)
             }
 
         </div>

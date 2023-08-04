@@ -6,7 +6,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import { useContext } from 'react';
-import { MDashboard, MDevice } from '../Context/Modal_Context';
+import { MDevice } from '../Context/Modal_Context';
+import { DashboardPageStatus } from '../Context/Dashboard_Context';
 
 const ColorButton = styled(Button)(({ theme }) => ({
     textTransform: 'none',
@@ -38,16 +39,14 @@ const AddDevice = () => {
 }
 const Device = (props) => {
     const { name, power, brightness } = props;
-    const { setMDashboard } = useContext(MDashboard);
+    const { setPageStatus } = useContext(DashboardPageStatus);
 
     const hControls = () => {
-        setMDashboard(prev => {
+        setPageStatus(prev => {
             return {
                 ...prev,
-                open: true,
-                error: false,
-                title: 'just',
-                message: 'a test'
+                path: "controls",
+                device_name: name
             }
         });
     }

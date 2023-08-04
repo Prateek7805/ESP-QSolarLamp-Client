@@ -2,22 +2,36 @@ import './Dashboard.css';
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import ProfileMenu from '../../Components/ProfileMenu/ProfileMenu';
 import deviceAPI from '../../Assets/API/Device';
-import { useEffect, useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { MDashboard } from '../../Components/Context/Modal_Context';
 import DashboardModal from '../../Components/DashboardModal/Modal';
 import AddDeviceModal from '../../Components/AddDeviceModal/AddDeviceModal';
 import DeviceListGrid from '../../Components/DeviceListGrid/DeviceListGrid';
-import { DeviceList } from '../../Components/Context/Dashboard_Context';
-
+import { DashboardPageStatus, DeviceList } from '../../Components/Context/Dashboard_Context';
+import DeviceControlOptions from '../../Components/DeviceContolOptions/DeviceControlOptions';
+import Spinner from '../../Components/Spinner/Spinner';
+const displayPage = (pageStatus) => {
+    switch (pageStatus) {
+        case "devices":
+            return (<DeviceListGrid />);
+        case "controls":
+            return (<DeviceControlOptions />);
+        default: return (<></>);
+    }
+}
 export default function Dashboard() {
-    const {devices, setDevices} = useContext(DeviceList);
-    const {setMDashboard} = useContext(MDashboard);
+    const { setDevices } = useContext(DeviceList);
+    const { setMDashboard } = useContext(MDashboard);
+    const { pageStatus } = useContext(DashboardPageStatus);
+    const [initials, setInitials] = useState('P');
+    const [loaded, setLoaded] = useState(false);
+
     useEffect(() => {
         async function updateDevices() {
             try {
                 const response = await deviceAPI.getAllStatuses();
                 if (response.error) {
-                    setMDashboard(prev=>{
+                    setMDashboard(prev => {
                         return {
                             ...prev,
                             open: true,
@@ -29,12 +43,17 @@ export default function Dashboard() {
                     });
                     return;
                 }
-                const deviceStatuses = response.message;
+                const userNameInitials = response.message.initials;
+                const deviceStatuses = response.message.devices;
                 if (deviceStatuses && deviceStatuses.length !== 0) {
                     setDevices(deviceStatuses);
                 }
+                if (userNameInitials) {
+                    setInitials(userNameInitials);
+                }
+                setLoaded(true);
             } catch (error) {
-                setMDashboard(prev=>{
+                setMDashboard(prev => {
                     return {
                         ...prev,
                         open: true,
@@ -50,17 +69,26 @@ export default function Dashboard() {
     }, []);
 
     return (
-        <div className="ds-main-container">
+        <>
+        <DashboardModal />
+        
+            {
+                loaded === true ? (
+                    <div className="ds-main-container" >
+                    <AddDeviceModal />
 
-            <DashboardModal />
-            <AddDeviceModal/>
-
-            <div className='ds-appbar'>
-                <Sidebar />
-                <ProfileMenu initials={'P'} />
-            </div>
-            <DeviceListGrid/>
-            
-        </div>
+                        <div className='ds-appbar'>
+                            <Sidebar />
+                            <ProfileMenu initials={initials} />
+                        </div>
+                        {
+                            displayPage(pageStatus.path)
+                        }
+                    </div>
+                ) : (
+                    <Spinner/>
+                )
+            }
+        </>
     )
 }
