@@ -10,8 +10,10 @@ export default function DashboardModal() {
     const navigate = useNavigate();
     const {mDashboard, setMDashboard} = useContext(MDashboard);
     const hClose =()=>{
-        if(mDashboard.navigate !== ''){
-            navigate(mDashboard.navigate);
+        const path = mDashboard.navigate;
+        if(path !== ''){
+            localStorage.removeItem('access_token');
+            navigate(path);
         }
         setMDashboard(prev=>{
             return {

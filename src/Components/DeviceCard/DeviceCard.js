@@ -6,8 +6,13 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import { useContext } from 'react';
-import { MDevice } from '../Context/Modal_Context';
+import { MDashboard, MDelete, MDevice } from '../Context/Modal_Context';
 import { DashboardPageStatus } from '../Context/Dashboard_Context';
+import { IconButton } from '@mui/material';
+import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SettingsIcon from '@mui/icons-material/Settings';
+import deviceAPI from '../../Assets/API/Device';
 
 const ColorButton = styled(Button)(({ theme }) => ({
     textTransform: 'none',
@@ -40,6 +45,7 @@ const AddDevice = () => {
 const Device = (props) => {
     const { name, power, brightness } = props;
     const { setPageStatus } = useContext(DashboardPageStatus);
+    const {setMDelete} = useContext(MDelete);
 
     const hControls = () => {
         setPageStatus(prev => {
@@ -50,7 +56,15 @@ const Device = (props) => {
             }
         });
     }
-
+    const hDelete = () =>{
+        setMDelete(prev=>{
+            return {
+                ...prev,
+                open: true,
+                name: name
+            }
+        });
+    };
     return (
         <Card style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', minHeight: '200px' }}>
             <CardContent>
@@ -66,10 +80,16 @@ const Device = (props) => {
                     <Typography varient="body2" color="text.secondary" sx={{ ml: 1 }}>{brightness}%</Typography>
                 </div>
             </CardContent>
-            <CardActions>
-                <Button size="small" color="primary" onClick={hControls}>
-                    Controls
-                </Button>
+            <CardActions disableSpacing>
+                <IconButton onClick={hControls}>
+                    <DisplaySettingsIcon/>
+                </IconButton>
+                <IconButton onClick={hDelete}>
+                    <DeleteIcon/>
+                </IconButton>
+                <IconButton>
+                    <SettingsIcon/>
+                </IconButton>
             </CardActions>
         </Card>
     );

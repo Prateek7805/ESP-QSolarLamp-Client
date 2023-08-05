@@ -10,6 +10,7 @@ import DeviceListGrid from '../../Components/DeviceListGrid/DeviceListGrid';
 import { DashboardPageStatus, DeviceList } from '../../Components/Context/Dashboard_Context';
 import DeviceControlOptions from '../../Components/DeviceContolOptions/DeviceControlOptions';
 import Spinner from '../../Components/Spinner/Spinner';
+import DeleteModal from '../../Components/DeleteModal/DeleteModal';
 const displayPage = (pageStatus) => {
     switch (pageStatus) {
         case "devices":
@@ -59,10 +60,10 @@ export default function Dashboard() {
                         open: true,
                         error: true,
                         title: "Error",
-                        message: "Error in getting Device info, please reload"
+                        message: "Error in getting Device info, please reload",
+                        navigate: "/"
                     }
                 });
-                console.log(error);
             }
         }
         updateDevices();
@@ -76,7 +77,7 @@ export default function Dashboard() {
                 loaded === true ? (
                     <div className="ds-main-container" >
                     <AddDeviceModal />
-
+                    <DeleteModal/>
                         <div className='ds-appbar'>
                             <Sidebar />
                             <ProfileMenu initials={initials} />

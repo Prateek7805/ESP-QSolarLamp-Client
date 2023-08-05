@@ -7,7 +7,10 @@ const login_basic = async(data) =>{
         localStorage.setItem('access_token', access_token);
         return {error: false};
     }catch(error){
-        return {error: true, message: error?.response.data.message};
+        if(error.response){
+            return {error: true, message: error.response.data.message};
+        }
+        return {error: true, message: "Please check your network connection"};
     }
 }
 
@@ -23,7 +26,6 @@ const login_auto = async () => {
         }
         return false;
     }catch(err){
-        console.log(err);
         return false;
     }
 }

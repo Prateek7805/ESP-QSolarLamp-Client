@@ -8,9 +8,12 @@ import PowerSwitch from '../Switch/PowerSwitch';
 import deviceAPI from '../../Assets/API/Device';
 import { MDashboard } from '../Context/Modal_Context';
 import BrightnessSlider from '../Slider/BrightnessSlider';
-
+import { DeviceList } from '../Context/Dashboard_Context';
+import Spinner from '../Spinner/Spinner';
 export default function DeviceControlOptions() {
+    const [loaded, setLoaded] = useState(false);
     const { setMDashboard } = useContext(MDashboard);
+    const {setDevices} = useContext(DeviceList);
     const { pageStatus, setPageStatus } = useContext(DashboardPageStatus);
     //helper functions
 
@@ -37,7 +40,6 @@ export default function DeviceControlOptions() {
         },
         data: []
     });
-
     const hClose = () => {
         setPageStatus((prev) => {
             return {
@@ -46,7 +48,6 @@ export default function DeviceControlOptions() {
             }
         })
     }
-
     const hPower = async (e) => {
         try {
             const checked = e.target.checked;
@@ -82,6 +83,14 @@ export default function DeviceControlOptions() {
                     }
                 }
             });
+            setDevices(prev=>{
+                const index = prev.findIndex((item)=>{
+                    return item.name === pageStatus.device_name;
+                });
+                const device = prev[index];
+                device.power = checked;
+                return [...prev.slice(0,index), device, ...prev.slice(index+1)];
+            });
         } catch (error) {
             setError("Error in getting Device info, please reload");
         }
@@ -89,12 +98,14 @@ export default function DeviceControlOptions() {
     let brightnessDelay;
     const hBrightness = (e) => {
         try{
+            const brightnessValue = e.target.value;
             clearTimeout(brightnessDelay);
             setDeviceStatus(prev=>{
                 return {
                     ...prev,
                     brightness:{
-                        value: e.target.value
+                        ...prev.brightness,
+                        value: brightnessValue
                     }
                 }
             });
@@ -109,7 +120,7 @@ export default function DeviceControlOptions() {
                             }
                         }
                     });
-                    const data={brightness: e.target.value};
+                    const data={brightness: brightnessValue};
                     const response = await deviceAPI.updateDeviceStatus(pageStatus.device_name, data);
                     if(response.error){
                         setError("Error in setting brightness", "/");
@@ -122,6 +133,14 @@ export default function DeviceControlOptions() {
                                 loading: false
                             }
                         }
+                    });
+                    setDevices(prev=>{
+                        const index = prev.findIndex((item)=>{
+                            return item.name === pageStatus.device_name;
+                        });
+                        const device = prev[index];
+                        device.brightness = brightnessValue;
+                        return [...prev.slice(0, index), device, ...prev.slice(index+1)];
                     });
                 }catch(error){
                     setError("Error in setting brightness");
@@ -165,8 +184,9 @@ export default function DeviceControlOptions() {
                         data: data
                     }
                 });
+                setLoaded(true);
             } catch (error) {
-                setErrorMsg("Error in getting Device info, please reload");
+                setErrorMsg("Error in getting Device info, please reload", "/");
             }
         };
         getDeviceInfo();
@@ -174,7 +194,7 @@ export default function DeviceControlOptions() {
 
     return (
         <div className="dco-container">
-            <div className='row g-1'>
+        {loaded? (<div className='row g-1'>
                 <div className='col-12 d-flex justify-content-center dco-title-wrap'>
                     <Typography sx={{ fontSize: '23px' }}>Controls</Typography>
                     <IconButton className='dco-close' sx={{ color: "#FF8400" }} onClick={hClose}>
@@ -204,7 +224,8 @@ export default function DeviceControlOptions() {
                         />
                     </div>
                 </div>
-            </div>
+            </div>) : (<Spinner/>)}
+            
         </div>
     )
 }
