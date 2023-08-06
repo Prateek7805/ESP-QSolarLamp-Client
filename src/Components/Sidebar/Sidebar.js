@@ -36,24 +36,23 @@ export default function Sidebar() {
         try {
             const response = await logout();
             if (response.error) {
-                console.log(response.message);
                 setMDashboard({
                     open: true,
                     error: true,
                     title: 'Error in Logging out',
                     message: response.message,
-                    navigate: '/'
+                    navigate: "/"
                 });
-                return; //-> uncomment for prod
+                return;
             }
-            navigate('/');
+            navigate("/");
         } catch (error) {
             setMDashboard({
                 open: true,
                 error: true,
                 title: "Error in Logging out",
                 message: "Unexpected exception in UI",
-                navigate: '/'
+                navigate: "/"
             });
         }
     };

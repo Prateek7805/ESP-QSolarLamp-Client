@@ -1,8 +1,6 @@
 import './Signup.css';
-import { TextField, IconButton, InputAdornment } from '@mui/material';
+import { TextField } from '@mui/material';
 import { Button } from '@mui/joy';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -10,13 +8,12 @@ import { useContext, useState } from 'react';
 import userValid from '../../Assets/Validation/User_Input_Validation';
 import signup from '../../Assets/API/Signup';
 import { MLanding } from '../Context/Modal_Context';
+import PasswordInput from '../PasswordInput/PasswordInput';
 
 export default function Signup(props) {
     
     const { setIsLogin } = props;
     const {setMLanding} = useContext(MLanding);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const hShowPassword = () => setIsPasswordVisible(show => !show);
     const [signupData, setSignupData] = useState({
         first_name: {
             value: '',
@@ -168,14 +165,10 @@ export default function Signup(props) {
             }
             const originURL = process.env.REACT_APP_SELF_URL;
             reqBody['origin'] = originURL;
-
             const response = await signup(reqBody);
+
             const title = response.error? 'Error in Signup' : 'Signup Successful';
-
-            const message = Array.isArray(response.message) ? response.message[0].message : response.message;
-            setSigninClicked(false);
-            setIsLogin(true);
-
+            const message = response.message;
             setMLanding(prev=>{
                 return {
                     ...prev,
@@ -185,7 +178,7 @@ export default function Signup(props) {
                     message: message
                 }
             });
-            
+            setSigninClicked(false);
         } catch (error) {
             setSigninClicked(false);
             console.log(error);
@@ -239,29 +232,13 @@ export default function Signup(props) {
                 helperText={signupData.email.helperText}
                 onChange={hl.email}
             />
-            <TextField variant="outlined"
-                type={isPasswordVisible ? 'text' : 'password'}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={hShowPassword}
-                                onMouseDown={(e) => e.preventDefault()}
-                                edge="end"
-                            >
-                                {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-                label="Password"
-                className='mb-3'
+            
+            <PasswordInput className='mb-3'
                 value={signupData.password.value}
                 error={signupData.password.error}
                 helperText={signupData.password.helperText}
-                onChange={hl.password}
-            />
+                onChange={hl.password}/>
+
             <div className='d-flex justify-content-lg-between align-items-lg-center flex-column flex-lg-row'>
                 <Button className='px-3 py-2 mb-3'
                     variant="solid"

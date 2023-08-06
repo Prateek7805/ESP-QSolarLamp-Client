@@ -11,6 +11,7 @@ import { DashboardPageStatus, DeviceList } from '../../Components/Context/Dashbo
 import DeviceControlOptions from '../../Components/DeviceContolOptions/DeviceControlOptions';
 import Spinner from '../../Components/Spinner/Spinner';
 import DeleteModal from '../../Components/DeleteModal/DeleteModal';
+import DeviceSettingsModal from '../../Components/DeviceSettingsModal/DeviceSettingsModal';
 const displayPage = (pageStatus) => {
     switch (pageStatus) {
         case "devices":
@@ -67,7 +68,7 @@ export default function Dashboard() {
             }
         }
         updateDevices();
-    }, []);
+    }, [setDevices, setMDashboard]);
 
     return (
         <>
@@ -78,6 +79,7 @@ export default function Dashboard() {
                     <div className="ds-main-container" >
                     <AddDeviceModal />
                     <DeleteModal/>
+                    <DeviceSettingsModal/>
                         <div className='ds-appbar'>
                             <Sidebar />
                             <ProfileMenu initials={initials} />

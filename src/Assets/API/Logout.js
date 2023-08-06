@@ -9,7 +9,10 @@ const logout = async () =>{
         return {error: false, message: message};
     }catch(error){
         localStorage.removeItem('access_token');
-        return {error: true, message: error?.response.data.message};
+        if(error.response){
+            return {error: true, message: error.response.data.message};
+        }
+        return {error: true, message: "Please check your network connection"};
     }
 }
 

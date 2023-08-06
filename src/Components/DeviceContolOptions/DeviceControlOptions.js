@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import './DeviceControlOptions.css';
 import { DashboardPageStatus } from '../Context/Dashboard_Context';
 import { IconButton, Typography } from '@mui/material';
@@ -15,8 +15,6 @@ export default function DeviceControlOptions() {
     const { setMDashboard } = useContext(MDashboard);
     const {setDevices} = useContext(DeviceList);
     const { pageStatus, setPageStatus } = useContext(DashboardPageStatus);
-    //helper functions
-
     const setError = (message, navigate) => {
         setMDashboard(prev => {
             return {
@@ -87,6 +85,9 @@ export default function DeviceControlOptions() {
                 const index = prev.findIndex((item)=>{
                     return item.name === pageStatus.device_name;
                 });
+                if(index === -1){
+                    return [...prev];
+                }
                 const device = prev[index];
                 device.power = checked;
                 return [...prev.slice(0,index), device, ...prev.slice(index+1)];
@@ -95,11 +96,11 @@ export default function DeviceControlOptions() {
             setError("Error in getting Device info, please reload");
         }
     }
-    let brightnessDelay;
+    const brightnessDelay = useRef(null);
     const hBrightness = (e) => {
         try{
             const brightnessValue = e.target.value;
-            clearTimeout(brightnessDelay);
+            clearTimeout(brightnessDelay.current);
             setDeviceStatus(prev=>{
                 return {
                     ...prev,
@@ -109,7 +110,7 @@ export default function DeviceControlOptions() {
                     }
                 }
             });
-            brightnessDelay = setTimeout(async ()=>{
+            brightnessDelay.current = setTimeout(async ()=>{
                 try{
                     setDeviceStatus(prev=>{
                         return {
@@ -138,6 +139,9 @@ export default function DeviceControlOptions() {
                         const index = prev.findIndex((item)=>{
                             return item.name === pageStatus.device_name;
                         });
+                        if(index === -1){
+                            return [...prev];
+                        }
                         const device = prev[index];
                         device.brightness = brightnessValue;
                         return [...prev.slice(0, index), device, ...prev.slice(index+1)];
@@ -224,7 +228,7 @@ export default function DeviceControlOptions() {
                         />
                     </div>
                 </div>
-            </div>) : (<Spinner/>)}
+            </div>) : (<Spinner box={true}/>)}
             
         </div>
     )

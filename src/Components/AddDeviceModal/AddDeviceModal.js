@@ -1,7 +1,5 @@
 import Button from '@mui/joy/Button';
-import { TextField, IconButton, InputAdornment } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { TextField } from '@mui/material';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Stack from '@mui/joy/Stack';
@@ -11,13 +9,12 @@ import { MDevice, MDashboard } from '../Context/Modal_Context';
 import deviceValid from '../../Assets/Validation/Device_Input_Validation'
 import deviceAPI from '../../Assets/API/Device';
 import { DeviceList } from '../Context/Dashboard_Context';
+import ModalPassword from '../ModalPassword/ModalPassword';
 
 export default function AddDeviceModal() {
 
     const { mDevice, setMDevice } = useContext(MDevice);
     const { setMDashboard } = useContext(MDashboard);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const hShowPassword = () => setIsPasswordVisible(show => !show);
     const [submitClicked, setSubmitClicked] = useState(false);
     const INIT_DEVICE_DATA = {
         license_key: {
@@ -45,7 +42,7 @@ export default function AddDeviceModal() {
             ID_DEVICE_PASSWORD: 'password'
         }
         const id = e.target.id;
-        const partialLicenseKey = e.target.value;
+        const partialValue = e.target.value;
         const key = id_mapper[id];
         if (key === undefined) {
             return;
@@ -54,9 +51,8 @@ export default function AddDeviceModal() {
             return {
                 ...prev,
                 [key]: {
-                    value: partialLicenseKey,
-                    error: prev[key].error,
-                    helperText: prev[key].helperText
+                    ...prev[key],
+                    value: partialValue
                 }
             }
         });
@@ -74,6 +70,7 @@ export default function AddDeviceModal() {
 
         setDeviceData(prev => {
             return {
+                ...prev,
                 license_key: {
                     value: prev.license_key.value,
                     ...lk_check
@@ -101,7 +98,7 @@ export default function AddDeviceModal() {
         setSubmitClicked(false);
         hClose(); //clear the input fields
         const title = response.error ? 'Error' : 'Success';
-        const message = response.error? Array.isArray(response.message) ? response.message[0].message : response.message : "Device registration successful";
+        const message = response.error? response.message : "Device registration successful";
         setMDashboard(prev => {
             return {
                 ...prev,
@@ -157,31 +154,15 @@ export default function AddDeviceModal() {
                             helperText={deviceData.name.helperText}
                             onChange={hdata}
                         />
-
-                        <TextField variant="outlined"
-                            type={isPasswordVisible ? 'text' : 'password'}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={hShowPassword}
-                                            onMouseDown={(e) => e.preventDefault()}
-                                            edge="end"
-                                        >
-                                            {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
+                        <ModalPassword
                             label="Password"
-                            size="small"
                             id="ID_DEVICE_PASSWORD"
                             value={deviceData.password.value}
                             error={deviceData.password.error}
                             helperText={deviceData.password.helperText}
                             onChange={hdata}
                         />
+                        
                         <Button
                             type="submit"
                             loading={submitClicked}

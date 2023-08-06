@@ -1,20 +1,16 @@
 import './Login.css';
-import { TextField, IconButton, InputAdornment } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { TextField } from '@mui/material';
 import userValid from '../../Assets/Validation/User_Input_Validation';
 import { useContext, useState } from 'react';
 import login from '../../Assets/API/Login';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { MLanding } from '../Context/Modal_Context';
+import PasswordInput from '../PasswordInput/PasswordInput';
 export default function Login(props) {
 
     const { setIsLogin } = props;
     const {setMLanding} = useContext(MLanding);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
-    const hShowPassword = () => setIsPasswordVisible(show => !show);
 
     const [loginData, setLoginData] = useState({
         email: {
@@ -61,12 +57,11 @@ export default function Login(props) {
         setLoginClicked(true);
         const emailCheck = userValid.email_check(loginData.email.value);
         const passCheck = userValid.pass_check(loginData.password.value);
-        console.table({emailCheck, passCheck});
         setLoginData(prev => {
             return {
                 email: {
-                    value: prev.email.value,
-                    ...emailCheck
+                    ...emailCheck,
+                    value: prev.email.value
                 },
                 password: {
                     value: prev.password.value,
@@ -79,14 +74,13 @@ export default function Login(props) {
             setLoginClicked(false);
             return;
         }
-
-        //Login code here
-        //login API
-        const loginStatus = await login.login_basic({ email: loginData.email.value, password: loginData.password.value });
+        const req_body={
+            email: loginData.email.value,
+            password: loginData.password.value
+        }
+        const loginStatus = await login.login_basic(req_body);
         if (loginStatus.error) {
-            console.log("login failed");
-            setLoginClicked(false);
-            let message = Array.isArray(loginStatus.message) ? loginStatus.message[0].message : loginStatus.message;
+            const message = loginStatus.message;
             setMLanding(prev=>{
                 return {
                     ...prev,
@@ -95,7 +89,8 @@ export default function Login(props) {
                     title: 'Unable to login',
                     message: message
                 }
-            })
+            });
+            setLoginClicked(false);
             return;
         }
         navigate('/dashboard');
@@ -112,29 +107,14 @@ export default function Login(props) {
                 helperText={loginData.email.helperText}
             />
 
-            <TextField variant="outlined"
-                type={isPasswordVisible ? 'text' : 'password'}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton
-                                aria-label="toggle password visibility"
-                                onClick={hShowPassword}
-                                onMouseDown={(e) => e.preventDefault()}
-                                edge="end"
-                            >
-                                {isPasswordVisible ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-                label="Password"
+            <PasswordInput
                 className='mb-4'
                 value={loginData.password.value}
                 error={loginData.password.error}
                 helperText={loginData.password.helperText}
                 onChange={hPassChange}
             />
+            
             <div className='d-flex justify-content-lg-between align-items-lg-center flex-column flex-lg-row'>
                 <Button className='px-3 py-2 mb-3' 
                     variant="solid" 

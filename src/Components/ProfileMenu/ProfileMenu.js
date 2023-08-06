@@ -22,7 +22,6 @@ export default function ProfileMenu(props) {
     };
     const handleLogout = async () => {
         try {
-            handleClose();
             const response = await logout();
             if (response.error) {
                 setMDashboard({
@@ -30,7 +29,7 @@ export default function ProfileMenu(props) {
                     error: true,
                     title: "Error in Logging out",
                     message: response.message,
-                    navigate: '/'
+                    navigate: "/"
                 });
                 return;
             }
@@ -41,10 +40,9 @@ export default function ProfileMenu(props) {
                 error: true,
                 title: "Error in Logging out",
                 message: "Unexpected exception in UI",
-                navigate: '/'
+                navigate: "/"
             });
         }
-
     };
     return (
         <div>
