@@ -9,9 +9,10 @@ import AddDeviceModal from '../../Components/AddDeviceModal/AddDeviceModal';
 import DeviceListGrid from '../../Components/DeviceListGrid/DeviceListGrid';
 import { DashboardPageStatus, DeviceList } from '../../Components/Context/Dashboard_Context';
 import DeviceControlOptions from '../../Components/DeviceContolOptions/DeviceControlOptions';
-import Spinner from '../../Components/Spinner/Spinner';
 import DeleteModal from '../../Components/DeleteModal/DeleteModal';
 import DeviceSettingsModal from '../../Components/DeviceSettingsModal/DeviceSettingsModal';
+import LoadingSpinner from '../../Components/Spinners/LoadingSpinner/LoadingSpinner';
+
 const displayPage = (pageStatus) => {
     switch (pageStatus) {
         case "devices":
@@ -89,7 +90,7 @@ export default function Dashboard() {
                         }
                     </div>
                 ) : (
-                    <Spinner/>
+                    <LoadingSpinner size='lg'/>
                 )
             }
         </>

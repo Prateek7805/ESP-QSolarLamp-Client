@@ -8,7 +8,7 @@ import Signup from '../../Components/Signup/Signup';
 import { useNavigate } from 'react-router-dom';
 import login from '../../Assets/API/Login';
 import LandingModal  from '../../Components/LandingModal/Modal';
-import Spinner from '../../Components/Spinner/Spinner';
+import LoadingSpinner from '../../Components/Spinners/LoadingSpinner/LoadingSpinner';
 
 export default function Landing() {
 
@@ -62,7 +62,7 @@ export default function Landing() {
                 </div>
             )
             :
-            (<Spinner/>)
+            (<LoadingSpinner size='lg'/>)
             }
 
         </div>

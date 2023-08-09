@@ -9,7 +9,7 @@ import deviceAPI from '../../Assets/API/Device';
 import { MDashboard } from '../Context/Modal_Context';
 import BrightnessSlider from '../Slider/BrightnessSlider';
 import { DeviceList } from '../Context/Dashboard_Context';
-import Spinner from '../Spinner/Spinner';
+import LoadingSpinner from '../Spinners/LoadingSpinner/LoadingSpinner';
 export default function DeviceControlOptions() {
     const [loaded, setLoaded] = useState(false);
     const { setMDashboard } = useContext(MDashboard);
@@ -228,7 +228,7 @@ export default function DeviceControlOptions() {
                         />
                     </div>
                 </div>
-            </div>) : (<Spinner box={true}/>)}
+            </div>) : (<LoadingSpinner nowrap={true}/>)}
             
         </div>
     )

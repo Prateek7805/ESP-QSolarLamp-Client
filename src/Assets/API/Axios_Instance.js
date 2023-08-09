@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const ACCESS_TIMEOUT = parseInt(process.env.REACT_APP_ACCESS_TIMEOUT);
+const API_TIMEOUT = parseInt(process.env.REACT_APP_GENERAL_API_TIMEOUT);
 const errorMessages = {
     jwt: 'invalid jwt'
 }
@@ -28,6 +29,7 @@ api.interceptors.request.use(
         const access_token = localStorage.getItem('access_token');
         if(access_token){
             config.headers['x-auth-token'] = access_token;
+            config.timeout = API_TIMEOUT;
         }
         return config;
     },

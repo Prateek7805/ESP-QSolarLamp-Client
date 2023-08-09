@@ -12,6 +12,8 @@ import { IconButton } from '@mui/material';
 import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SettingsIcon from '@mui/icons-material/Settings';
+import ValueSpinner from '../Spinners/ValueSpinner/ValueSpinner';
+import Dot from '../Dot/Dot';
 
 const ColorButton = styled(Button)(({ theme }) => ({
     textTransform: 'none',
@@ -84,10 +86,12 @@ const Device = (props) => {
                 <div className='d-flex mb-1'>
                     <Typography varient="body2" color="text.secondary">Power:</Typography>
                     <Typography varient="body2" color="text.secondary" sx={{ ml: 1 }}>{power ? 'On' : 'Off'}</Typography>
+                    <Dot status={power? 'on': 'off'} className='ms-1 mt-1'/>
                 </div>
                 <div className='d-flex mb-1'>
                     <Typography varient="body2" color="text.secondary">Brightness:</Typography>
-                    <Typography varient="body2" color="text.secondary" sx={{ ml: 1 }}>{brightness}%</Typography>
+                    
+                    <ValueSpinner size='sm' className='ms-1' variant='determinate' value={brightness}/>
                 </div>
             </CardContent>
             <CardActions disableSpacing>

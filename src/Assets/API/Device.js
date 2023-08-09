@@ -50,7 +50,7 @@ const updateDeviceStatus = async (name, data)=>{
 }
 const getDeviceStatus = async (name) => {
     try{
-        const response = await api.get(`${route}/status?name=${name}`);
+        const response = await api.get(`${route}/status?name=${name}`, );
         return {error: false, message: response.data};
     }catch(error){
         if(error.response){
