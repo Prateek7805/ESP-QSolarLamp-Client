@@ -11,18 +11,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import logout from '../../Assets/API/Logout';
 
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MDashboard } from '../Context/Modal_Context';
-
+import { DashboardPageStatus } from '../Context/Dashboard_Context';
 
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
     
     const {setMDashboard} = useContext(MDashboard);
+    const {setPageStatus} = useContext(DashboardPageStatus);
+
     const navigate = useNavigate();
 
     const toggleDrawer = (e, state) => {
@@ -32,6 +35,20 @@ export default function Sidebar() {
         setOpen(state);
     };
 
+
+    const hOptions = (path) => {
+        const validOptions = ['devices', 'account'];
+        const path_check = validOptions.findIndex(item=>item===path) !== -1;
+        if(!path_check){
+            return;
+        }
+        setPageStatus(prev=>{
+            return{
+                ...prev,
+                path: path
+            }
+        });
+    }
     const handleLogout = async () => {
         try {
             const response = await logout();
@@ -56,7 +73,6 @@ export default function Sidebar() {
             });
         }
     };
-
     return (
         <>
             <IconButton
@@ -79,7 +95,12 @@ export default function Sidebar() {
                     onKeyDown={e => toggleDrawer(e, false)}
                 >
                     <List>
-                        {[{text: 'Profile', icon: <AccountCircleIcon/>, hclick: ()=>{}}, {text: 'Account', icon : <SettingsIcon/>, hclick: ()=>{}}, {text: 'Logout', icon: <MeetingRoomIcon/>, hclick: handleLogout}].map((item, index) => (
+                        {[
+                          {text: 'Dashboard', icon: <DashboardIcon/>, hclick: ()=>hOptions('devices')},
+                          {text: 'Profile', icon: <AccountCircleIcon/>, hclick: ()=>hOptions('profile')}, 
+                          {text: 'Account', icon : <SettingsIcon/>, hclick: ()=>hOptions('account')},
+                          {text: 'Logout', icon: <MeetingRoomIcon/>, hclick: handleLogout}
+                          ].map((item, index) => (
                             <ListItem key={index} disablePadding>
                                 <ListItemButton onClick={item.hclick}>
                                     <ListItemIcon>
@@ -89,6 +110,7 @@ export default function Sidebar() {
                                 </ListItemButton>
                             </ListItem>
                         ))}
+                       
                     </List>
                     <Divider />
                 </Box>

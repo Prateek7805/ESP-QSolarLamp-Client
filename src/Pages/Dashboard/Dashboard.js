@@ -12,6 +12,7 @@ import DeviceControlOptions from '../../Components/DeviceContolOptions/DeviceCon
 import DeleteModal from '../../Components/DeleteModal/DeleteModal';
 import DeviceSettingsModal from '../../Components/DeviceSettingsModal/DeviceSettingsModal';
 import LoadingSpinner from '../../Components/Spinners/LoadingSpinner/LoadingSpinner';
+import AccountSettings from '../AccountSettings/AccountSettings';
 
 const displayPage = (pageStatus) => {
     switch (pageStatus) {
@@ -19,6 +20,8 @@ const displayPage = (pageStatus) => {
             return (<DeviceListGrid />);
         case "controls":
             return (<DeviceControlOptions />);
+        case "account":
+            return (<AccountSettings/>);
         default: return (<></>);
     }
 }

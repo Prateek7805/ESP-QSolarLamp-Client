@@ -1,0 +1,7 @@
+.das-container{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    padding: 10px;
+}

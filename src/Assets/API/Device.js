@@ -43,7 +43,9 @@ const updateDeviceStatus = async (name, data)=>{
         return {error: false, message: response.data};
     }catch(error){
         if(error.response){
-            return {error: true, message: error.response.data.message};
+            const msg = error.response.data.message;
+            const message = Array.isArray(msg) ? msg[0].message : msg;
+            return {error: true, message: message};
         }
         return {error: true, message: "Please check your network connection"};
     }

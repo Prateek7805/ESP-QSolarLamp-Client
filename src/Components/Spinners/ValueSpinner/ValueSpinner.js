@@ -24,7 +24,6 @@ export default function ValueSpinner(props) {
       />
       <CircularProgress
         variant={_variant}
-        disableShrink
         value={_value}
         sx={{
           color: colorfn,
