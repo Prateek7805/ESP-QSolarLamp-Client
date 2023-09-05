@@ -10,6 +10,7 @@ import { MDashboard } from '../Context/Modal_Context';
 import BrightnessSlider from '../Slider/BrightnessSlider';
 import { DeviceList } from '../Context/Dashboard_Context';
 import LoadingSpinner from '../Spinners/LoadingSpinner/LoadingSpinner';
+import ColorPicker from '../ColorPicker/ColorPicker';
 export default function DeviceControlOptions() {
     const [loaded, setLoaded] = useState(false);
     const { setMDashboard } = useContext(MDashboard);
@@ -34,6 +35,10 @@ export default function DeviceControlOptions() {
         },
         brightness: {
             value: 30,
+            loading: false
+        },
+        color: {
+            value: '#000000',
             loading: false
         },
         data: []
@@ -154,6 +159,55 @@ export default function DeviceControlOptions() {
             setError("Error in setting brightness");
         }
     }
+    const colorDelay = useRef(null);
+    const hColor = async (e) => {
+        try {
+            const value = e.target.value;
+            clearTimeout(colorDelay.current);
+            console.log({ value });
+            setDeviceStatus(prev => {
+                return {
+                    ...prev,
+                    color: {
+                        value: value,
+                        loading: true
+                    }
+                }
+            });
+            colorDelay.current = setTimeout(async () => {
+                try {
+                    setDeviceStatus(prev => {
+                        return {
+                            ...prev,
+                            color: {
+                                ...prev.color,
+                                loading: true
+                            }
+                        }
+                    }); //loading true
+                    const response = await deviceAPI.updateDeviceStatus(pageStatus.device_name, {color: value});
+                    if(response.error){
+                        setError("Cannot update status, please reload", "/");
+                        return;
+                    }
+                    setDeviceStatus(prev => {
+                        return {
+                            ...prev,
+                            color: {
+                                ...prev.color,
+                                loading: false
+                            }
+                        }
+                    }); //loading false
+                }catch(error){
+                    setError("Error in updating the color");
+                }   
+            }, 1000);
+
+        } catch (error) {
+            setError("Error in getting Device info, please reload");
+        }
+    }
     useEffect(() => {
         const setErrorMsg = (message, navigate) => {
             setMDashboard(prev => {
@@ -174,7 +228,7 @@ export default function DeviceControlOptions() {
                     setErrorMsg("Error in getting Device info, try logging in again", "/");
                     return;
                 }
-                const { power, brightness, data } = response.message;
+                const { power, brightness, color, data } = response.message;
                 setDeviceStatus(prev => {
                     return {
                         ...prev,
@@ -183,7 +237,12 @@ export default function DeviceControlOptions() {
                             value: power
                         },
                         brightness: {
+                            ...prev.brightness,
                             value: brightness
+                        },
+                        color: {
+                            ...prev.color,
+                            value: color
                         },
                         data: data
                     }
@@ -224,6 +283,14 @@ export default function DeviceControlOptions() {
                                 loading={deviceStatus.brightness.loading}
                                 onChange={hBrightness}
                             />
+                        </div>
+                    </div>
+                    <div className='row g-1'>
+                        <div className='col-6 col-md-4 col-lg-3'>
+                            <Typography variant='h6' color="text.secondary">Color:</Typography>
+                        </div>
+                        <div className='col-6 col-md-4 col-lg-3'>
+                            <ColorPicker onChange={hColor} value={deviceStatus.color.value} />
                         </div>
                     </div>
                 </div>) : (<LoadingSpinner nowrap={true} />)}
