@@ -13,7 +13,7 @@ import LoadingSpinner from '../Spinners/LoadingSpinner/LoadingSpinner';
 export default function DeviceControlOptions() {
     const [loaded, setLoaded] = useState(false);
     const { setMDashboard } = useContext(MDashboard);
-    const {setDevices} = useContext(DeviceList);
+    const { setDevices } = useContext(DeviceList);
     const { pageStatus, setPageStatus } = useContext(DashboardPageStatus);
     const setError = (message, navigate) => {
         setMDashboard(prev => {
@@ -81,16 +81,16 @@ export default function DeviceControlOptions() {
                     }
                 }
             });
-            setDevices(prev=>{
-                const index = prev.findIndex((item)=>{
+            setDevices(prev => {
+                const index = prev.findIndex((item) => {
                     return item.name === pageStatus.device_name;
                 });
-                if(index === -1){
+                if (index === -1) {
                     return [...prev];
                 }
                 const device = prev[index];
                 device.power = checked;
-                return [...prev.slice(0,index), device, ...prev.slice(index+1)];
+                return [...prev.slice(0, index), device, ...prev.slice(index + 1)];
             });
         } catch (error) {
             setError("Error in getting Device info, please reload");
@@ -98,59 +98,59 @@ export default function DeviceControlOptions() {
     }
     const brightnessDelay = useRef(null);
     const hBrightness = (e) => {
-        try{
+        try {
             const brightnessValue = e.target.value;
             clearTimeout(brightnessDelay.current);
-            setDeviceStatus(prev=>{
+            setDeviceStatus(prev => {
                 return {
                     ...prev,
-                    brightness:{
+                    brightness: {
                         ...prev.brightness,
                         value: brightnessValue
                     }
                 }
             });
-            brightnessDelay.current = setTimeout(async ()=>{
-                try{
-                    setDeviceStatus(prev=>{
+            brightnessDelay.current = setTimeout(async () => {
+                try {
+                    setDeviceStatus(prev => {
                         return {
                             ...prev,
-                            brightness:{
+                            brightness: {
                                 ...prev.brightness,
                                 loading: true
                             }
                         }
                     });
-                    const data={brightness: brightnessValue};
+                    const data = { brightness: brightnessValue };
                     const response = await deviceAPI.updateDeviceStatus(pageStatus.device_name, data);
-                    if(response.error){
+                    if (response.error) {
                         setError("Error in setting brightness", "/");
                     }
-                    setDeviceStatus(prev=>{
+                    setDeviceStatus(prev => {
                         return {
                             ...prev,
-                            brightness:{
+                            brightness: {
                                 ...prev.brightness,
                                 loading: false
                             }
                         }
                     });
-                    setDevices(prev=>{
-                        const index = prev.findIndex((item)=>{
+                    setDevices(prev => {
+                        const index = prev.findIndex((item) => {
                             return item.name === pageStatus.device_name;
                         });
-                        if(index === -1){
+                        if (index === -1) {
                             return [...prev];
                         }
                         const device = prev[index];
                         device.brightness = brightnessValue;
-                        return [...prev.slice(0, index), device, ...prev.slice(index+1)];
+                        return [...prev.slice(0, index), device, ...prev.slice(index + 1)];
                     });
-                }catch(error){
+                } catch (error) {
                     setError("Error in setting brightness");
                 }
             }, 1000);
-        }catch(error){
+        } catch (error) {
             setError("Error in setting brightness");
         }
     }
@@ -198,38 +198,36 @@ export default function DeviceControlOptions() {
 
     return (
         <div className="dco-container">
-        {loaded? (<div className='row g-1'>
-                <div className='col-12 d-flex justify-content-center dco-title-wrap'>
-                    <Typography sx={{ fontSize: '23px' }}>Controls</Typography>
-                    <IconButton className='dco-close' sx={{ color: "#FF8400" }} onClick={hClose}>
-                        <HighlightOffIcon />
-                    </IconButton>
-                </div>
-                <div className='col-12'>
-                    <Typography variant='h6'>{pageStatus.device_name}</Typography>
-                </div>
+            <IconButton className='dco-close' sx={{ color: "#FF8400" }} onClick={hClose}>
+                <HighlightOffIcon />
+            </IconButton>
+            {loaded ? (
                 <div className='row g-1'>
-                    <div className='col-6 col-md-4 col-lg-3'>
-                        <Typography variant='h6' color="text.secondary">Power:</Typography>
+                    <div className='col-12'>
+                        <Typography variant='h6'>{pageStatus.device_name}</Typography>
                     </div>
-                    <div className='col-6 col-md-8 col-lg-9'>
-                        <PowerSwitch loading={deviceStatus.power.loading} checked={deviceStatus.power.value} onChange={hPower} />
+                    <div className='row g-1'>
+                        <div className='col-6 col-md-4 col-lg-3'>
+                            <Typography variant='h6' color="text.secondary">Power:</Typography>
+                        </div>
+                        <div className='col-6 col-md-8 col-lg-9'>
+                            <PowerSwitch loading={deviceStatus.power.loading} checked={deviceStatus.power.value} onChange={hPower} />
+                        </div>
                     </div>
-                </div>
-                <div className='row g-1'>
-                    <div className='col-6 col-md-4 col-lg-3'>
-                        <Typography variant='h6' color="text.secondary">Brightness:</Typography>
-                    </div>
-                    <div className='col-6 col-md-4 col-lg-3'>
-                        <BrightnessSlider defaultValue={30} 
-                                value={deviceStatus.brightness.value} 
+                    <div className='row g-1'>
+                        <div className='col-6 col-md-4 col-lg-3'>
+                            <Typography variant='h6' color="text.secondary">Brightness:</Typography>
+                        </div>
+                        <div className='col-6 col-md-4 col-lg-3'>
+                            <BrightnessSlider defaultValue={30}
+                                value={deviceStatus.brightness.value}
                                 loading={deviceStatus.brightness.loading}
                                 onChange={hBrightness}
-                        />
+                            />
+                        </div>
                     </div>
-                </div>
-            </div>) : (<LoadingSpinner nowrap={true}/>)}
-            
+                </div>) : (<LoadingSpinner nowrap={true} />)}
+
         </div>
     )
 }

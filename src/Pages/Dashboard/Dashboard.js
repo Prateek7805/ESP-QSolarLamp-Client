@@ -13,6 +13,7 @@ import DeleteModal from '../../Components/DeleteModal/DeleteModal';
 import DeviceSettingsModal from '../../Components/DeviceSettingsModal/DeviceSettingsModal';
 import LoadingSpinner from '../../Components/Spinners/LoadingSpinner/LoadingSpinner';
 import AccountSettings from '../AccountSettings/AccountSettings';
+import { Typography } from '@mui/material';
 
 const displayPage = (pageStatus) => {
     switch (pageStatus) {
@@ -24,6 +25,12 @@ const displayPage = (pageStatus) => {
             return (<AccountSettings/>);
         default: return (<></>);
     }
+}
+const pageTitle = {
+    devices: '',
+    controls: 'Controls',
+    account : 'Account Settings',
+    profile : 'Profile Settings'
 }
 export default function Dashboard() {
     const { setDevices } = useContext(DeviceList);
@@ -86,6 +93,7 @@ export default function Dashboard() {
                     <DeviceSettingsModal/>
                         <div className='ds-appbar'>
                             <Sidebar />
+                            <span className="d-flex align-items-center" style={{fontSize: '23px' , fontWeight: 500}}>{pageTitle[pageStatus.path]}</span>
                             <ProfileMenu initials={initials} />
                         </div>
                         {

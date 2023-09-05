@@ -3,6 +3,7 @@
 }
 .dco-container{
     background-color: var(--c-sco-container-bg);
+    position: relative;
     margin-top: 10px;
     display: flex;
     flex-direction: column;
@@ -22,4 +23,5 @@
 .dco-close{
     position: absolute !important;
     right: 0;
+    top:0;
 }

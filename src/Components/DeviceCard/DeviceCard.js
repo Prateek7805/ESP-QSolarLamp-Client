@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ValueSpinner from '../Spinners/ValueSpinner/ValueSpinner';
 import Dot from '../Dot/Dot';
-
+import './DeviceCard.css';
 const ColorButton = styled(Button)(({ theme }) => ({
     textTransform: 'none',
     color: '#000000',
@@ -86,24 +86,24 @@ const Device = (props) => {
                 <div className='d-flex mb-1'>
                     <Typography varient="body2" color="text.secondary">Power:</Typography>
                     <Typography varient="body2" color="text.secondary" sx={{ ml: 1 }}>{power ? 'On' : 'Off'}</Typography>
-                    <Dot status={power? 'on': 'off'} className='ms-1 mt-1'/>
+                    <Dot status={power ? 'on' : 'off'} className='ms-1 mt-1' />
                 </div>
                 <div className='d-flex mb-1'>
                     <Typography varient="body2" color="text.secondary">Brightness:</Typography>
-                    
-                    <ValueSpinner size='sm' className='ms-1' variant='determinate' value={brightness}/>
+
+                    <ValueSpinner size='sm' className='ms-1' variant='determinate' value={brightness} />
                 </div>
             </CardContent>
-            <CardActions disableSpacing>
-                <IconButton onClick={hControls}>
-                    <DisplaySettingsIcon />
-                </IconButton>
-                <IconButton onClick={hDelete}>
-                    <DeleteIcon />
-                </IconButton>
-                <IconButton onClick={hSettings}>
-                    <SettingsIcon/>
-                </IconButton>
+            <CardActions disableSpacing className='device-card-options justify-content-evenly justify-content-md-center'>
+                    <IconButton onClick={hControls}>
+                        <DisplaySettingsIcon />
+                    </IconButton>
+                    <IconButton onClick={hDelete}>
+                        <DeleteIcon />
+                    </IconButton>
+                    <IconButton onClick={hSettings}>
+                        <SettingsIcon />
+                    </IconButton>
             </CardActions>
         </Card>
     );
