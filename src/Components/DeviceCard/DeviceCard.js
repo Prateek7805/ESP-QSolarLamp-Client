@@ -45,7 +45,7 @@ const AddDevice = () => {
     )
 }
 const Device = (props) => {
-    const { name, power, brightness } = props;
+    const { name, power, brightness, color } = props;
     const { setPageStatus } = useContext(DashboardPageStatus);
     const { setMDelete } = useContext(MDelete);
     const { setMDeviceSettings } = useContext(MDeviceSettings);
@@ -91,7 +91,7 @@ const Device = (props) => {
                 <div className='d-flex mb-1'>
                     <Typography varient="body2" color="text.secondary">Brightness:</Typography>
 
-                    <ValueSpinner size='sm' className='ms-1' variant='determinate' value={brightness} />
+                    <ValueSpinner size='sm' className='ms-1' variant='determinate' value={brightness} color={color} />
                 </div>
             </CardContent>
             <CardActions disableSpacing className='device-card-options justify-content-evenly justify-content-md-center'>

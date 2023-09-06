@@ -164,13 +164,12 @@ export default function DeviceControlOptions() {
         try {
             const value = e.target.value;
             clearTimeout(colorDelay.current);
-            console.log({ value });
             setDeviceStatus(prev => {
                 return {
                     ...prev,
                     color: {
-                        value: value,
-                        loading: true
+                        ...prev.color,
+                        value: value
                     }
                 }
             });
@@ -199,6 +198,17 @@ export default function DeviceControlOptions() {
                             }
                         }
                     }); //loading false
+                    setDevices(prev => {
+                        const index = prev.findIndex((item) => {
+                            return item.name === pageStatus.device_name;
+                        });
+                        if (index === -1) {
+                            return [...prev];
+                        }
+                        const device = prev[index];
+                        device.color = value;
+                        return [...prev.slice(0, index), device, ...prev.slice(index + 1)];
+                    });
                 }catch(error){
                     setError("Error in updating the color");
                 }   
@@ -290,7 +300,7 @@ export default function DeviceControlOptions() {
                             <Typography variant='h6' color="text.secondary">Color:</Typography>
                         </div>
                         <div className='col-6 col-md-4 col-lg-3'>
-                            <ColorPicker onChange={hColor} value={deviceStatus.color.value} />
+                            <ColorPicker onChange={hColor} value={deviceStatus.color.value} loading={deviceStatus.color.loading}/>
                         </div>
                     </div>
                 </div>) : (<LoadingSpinner nowrap={true} />)}

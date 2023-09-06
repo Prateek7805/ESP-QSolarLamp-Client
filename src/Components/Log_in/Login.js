@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@mui/joy/Button';
 import { MLanding } from '../Context/Modal_Context';
 import PasswordInput from '../PasswordInput/PasswordInput';
+import { Key } from '@mui/icons-material';
 export default function Login(props) {
 
     const { setIsLogin } = props;
@@ -52,6 +53,12 @@ export default function Login(props) {
                 }
             };
         });
+    }
+    const hPassKeyUp = (e)=>{
+        if(e.key !== "Enter"){
+            return;
+        }
+        hLogin();
     }
     const hLogin = async () => {
         setLoginClicked(true);
@@ -113,6 +120,7 @@ export default function Login(props) {
                 error={loginData.password.error}
                 helperText={loginData.password.helperText}
                 onChange={hPassChange}
+                onKeyUp={hPassKeyUp}
             />
             
             <div className='d-flex justify-content-lg-between align-items-lg-center flex-column flex-lg-row'>
