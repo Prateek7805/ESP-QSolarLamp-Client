@@ -59,7 +59,7 @@ export default function AccountSettings() {
     }, [setMDashboard]);
     return (
         <div className='das-container'>
-            <div className='row g-0 p-1 das-details-bar' >
+            <div className='row g-0 p-1 das-details-bar ps-4 ps-sm-0' >
                 <div className='d-flex align-items-center justify-content-sm-center col-12 col-sm-6 col-md-3 mb-1'>
                     <Tooltip disableFocusListener TransitionComponent={Zoom} title="Full Name" placement="top" arrow>
                         <PersonIcon />

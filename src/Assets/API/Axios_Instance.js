@@ -41,6 +41,7 @@ api.interceptors.response.use(response => response,
     async (error) => {
         try {
             const { status, data } = error.response;
+            console.log(error.response);
             if (status === 401 && data.message === errorMessages.jwt && !error.config.__isRetryRequest) {
                 try {
                     const access_token = await getAccessToken();

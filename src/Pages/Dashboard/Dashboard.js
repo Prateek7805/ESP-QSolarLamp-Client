@@ -3,7 +3,6 @@ import Sidebar from '../../Components/Sidebar/Sidebar';
 import ProfileMenu from '../../Components/ProfileMenu/ProfileMenu';
 import deviceAPI from '../../Assets/API/Device';
 import { useState, useEffect, useContext } from 'react';
-import { MDashboard } from '../../Components/Context/Modal_Context';
 import DashboardModal from '../../Components/DashboardModal/Modal';
 import AddDeviceModal from '../../Components/AddDeviceModal/AddDeviceModal';
 import DeviceListGrid from '../../Components/DeviceListGrid/DeviceListGrid';
@@ -13,7 +12,7 @@ import DeleteModal from '../../Components/DeleteModal/DeleteModal';
 import DeviceSettingsModal from '../../Components/DeviceSettingsModal/DeviceSettingsModal';
 import LoadingSpinner from '../../Components/Spinners/LoadingSpinner/LoadingSpinner';
 import AccountSettings from '../AccountSettings/AccountSettings';
-import { Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const displayPage = (pageStatus) => {
     switch (pageStatus) {
@@ -33,27 +32,19 @@ const pageTitle = {
     profile : 'Profile Settings'
 }
 export default function Dashboard() {
+    const navigate = useNavigate();
     const { setDevices } = useContext(DeviceList);
-    const { setMDashboard } = useContext(MDashboard);
     const { pageStatus } = useContext(DashboardPageStatus);
     const [initials, setInitials] = useState('P');
     const [loaded, setLoaded] = useState(false);
-
+    
     useEffect(() => {
         async function updateDevices() {
             try {
                 const response = await deviceAPI.getAllStatuses();
                 if (response.error) {
-                    setMDashboard(prev => {
-                        return {
-                            ...prev,
-                            open: true,
-                            error: true,
-                            title: "Error",
-                            message: "Error in getting Device info, try logging in again",
-                            navigate: "/"
-                        }
-                    });
+                    localStorage.removeItem('access_token');
+                    navigate("/");
                     return;
                 }
                 const userNameInitials = response.message.initials;
@@ -66,20 +57,12 @@ export default function Dashboard() {
                 }
                 setLoaded(true);
             } catch (error) {
-                setMDashboard(prev => {
-                    return {
-                        ...prev,
-                        open: true,
-                        error: true,
-                        title: "Error",
-                        message: "Error in getting Device info, please reload",
-                        navigate: "/"
-                    }
-                });
+                localStorage.removeItem('access_token');
+                navigate("/");
             }
         }
         updateDevices();
-    }, [setDevices, setMDashboard]);
+    }, [setDevices, navigate]);
 
     return (
         <>

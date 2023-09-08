@@ -4,7 +4,7 @@ import CircularProgress, {
 
 // Inspired by the former Facebook spinners.
 export default function ValueSpinner(props) {
-  const _compColor = (color) =>{
+/*  const _compColor = (color) =>{
     const _color = color.substring(1); 
     const c1 = "0x" + _color.substring(0,2);
     const c2 = "0x" + _color.substring(2,4);
@@ -15,6 +15,7 @@ export default function ValueSpinner(props) {
     const compColor = "#" + h1.toString(16) + h2.toString(16) + h3.toString(16);
     return compColor;
   }
+  */
 
   const { color, size, variant, value, className } = props;
   const _size = size === 'sm' ? 24 : size === 'md' ? 32 : size === 'lg' ? 48 : 32;
