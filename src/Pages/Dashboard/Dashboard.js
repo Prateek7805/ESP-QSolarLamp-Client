@@ -76,7 +76,9 @@ export default function Dashboard() {
                     <DeviceSettingsModal/>
                         <div className='ds-appbar'>
                             <Sidebar />
-                            <span className="d-flex align-items-center" style={{fontSize: '23px' , fontWeight: 500}}>{pageTitle[pageStatus.path]}</span>
+                            <span className="d-flex align-items-center" style={{fontSize: '23px' , fontWeight: 500}}>
+                                {pageTitle[pageStatus.path]}
+                            </span>
                             <ProfileMenu initials={initials} />
                         </div>
                         {

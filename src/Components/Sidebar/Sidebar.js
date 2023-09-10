@@ -51,7 +51,7 @@ export default function Sidebar() {
     }
     const handleLogout = async () => {
         try {
-            const response = await logout();
+            const response = await logout(true);
             if (response.error) {
                 setMDashboard({
                     open: true,
@@ -99,7 +99,7 @@ export default function Sidebar() {
                           {text: 'Dashboard', icon: <DashboardIcon/>, hclick: ()=>hOptions('devices')},
                           {text: 'Profile', icon: <AccountCircleIcon/>, hclick: ()=>hOptions('profile')}, 
                           {text: 'Account', icon : <SettingsIcon/>, hclick: ()=>hOptions('account')},
-                          {text: 'Logout', icon: <MeetingRoomIcon/>, hclick: handleLogout}
+                          {text: 'Logout of all Devices', icon: <MeetingRoomIcon/>, hclick: handleLogout}
                           ].map((item, index) => (
                             <ListItem key={index} disablePadding>
                                 <ListItemButton onClick={item.hclick}>
