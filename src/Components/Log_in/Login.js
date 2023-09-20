@@ -87,7 +87,11 @@ export default function Login(props) {
         }
         const loginStatus = await login.login_basic(req_body);
         if (loginStatus.error) {
-            const message = loginStatus.message;
+            let message = loginStatus.message;
+            if(typeof(message) !== 'string'){
+                message = 'Please check the console for logs';
+                console.log(loginStatus.message);
+            }
             setMLanding(prev=>{
                 return {
                     ...prev,

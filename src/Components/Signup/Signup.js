@@ -168,7 +168,11 @@ export default function Signup(props) {
             const response = await signup(reqBody);
 
             const title = response.error? 'Error in Signup' : 'Signup Successful';
-            const message = response.message;
+            let message = response.message;
+            if(typeof(message) !== 'string'){
+                message = 'Please check the console for logs';
+                console.log(response.message);
+            }
             setMLanding(prev=>{
                 return {
                     ...prev,

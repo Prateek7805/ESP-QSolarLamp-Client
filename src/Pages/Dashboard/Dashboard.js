@@ -13,6 +13,7 @@ import DeviceSettingsModal from '../../Components/DeviceSettingsModal/DeviceSett
 import LoadingSpinner from '../../Components/Spinners/LoadingSpinner/LoadingSpinner';
 import AccountSettings from '../AccountSettings/AccountSettings';
 import { useNavigate } from 'react-router-dom';
+import ProfileSettings from '../ProfileSettings/ProfileSettings';
 
 const displayPage = (pageStatus) => {
     switch (pageStatus) {
@@ -21,15 +22,17 @@ const displayPage = (pageStatus) => {
         case "controls":
             return (<DeviceControlOptions />);
         case "account":
-            return (<AccountSettings/>);
+            return (<AccountSettings />);
+        case "profile":
+            return (<ProfileSettings />);
         default: return (<></>);
     }
 }
 const pageTitle = {
     devices: '',
     controls: 'Controls',
-    account : 'Account Settings',
-    profile : 'Profile Settings'
+    account: 'Account Settings',
+    profile: 'Profile Settings'
 }
 export default function Dashboard() {
     const navigate = useNavigate();
@@ -37,7 +40,7 @@ export default function Dashboard() {
     const { pageStatus } = useContext(DashboardPageStatus);
     const [initials, setInitials] = useState('P');
     const [loaded, setLoaded] = useState(false);
-    
+
     useEffect(() => {
         async function updateDevices() {
             try {
@@ -66,17 +69,17 @@ export default function Dashboard() {
 
     return (
         <>
-        <DashboardModal />
-        
+            <DashboardModal />
+
             {
                 loaded === true ? (
                     <div className="ds-main-container" >
-                    <AddDeviceModal />
-                    <DeleteModal/>
-                    <DeviceSettingsModal/>
+                        <AddDeviceModal />
+                        <DeleteModal />
+                        <DeviceSettingsModal />
                         <div className='ds-appbar'>
                             <Sidebar />
-                            <span className="d-flex align-items-center" style={{fontSize: '23px' , fontWeight: 500}}>
+                            <span className="d-flex align-items-center" style={{ fontSize: '23px', fontWeight: 500 }}>
                                 {pageTitle[pageStatus.path]}
                             </span>
                             <ProfileMenu initials={initials} />
@@ -86,7 +89,7 @@ export default function Dashboard() {
                         }
                     </div>
                 ) : (
-                    <LoadingSpinner size='lg'/>
+                    <LoadingSpinner size='lg' />
                 )
             }
         </>

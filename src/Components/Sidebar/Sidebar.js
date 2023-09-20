@@ -37,7 +37,7 @@ export default function Sidebar() {
 
 
     const hOptions = (path) => {
-        const validOptions = ['devices', 'account'];
+        const validOptions = ['devices', 'account', 'profile'];
         const path_check = validOptions.findIndex(item=>item===path) !== -1;
         if(!path_check){
             return;

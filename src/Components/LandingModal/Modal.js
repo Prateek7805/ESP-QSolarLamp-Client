@@ -13,7 +13,7 @@ export default function LandingModal() {
                 ...prev,
                 open : false
             }
-        })
+        });
     }
     return (
         <Modal
